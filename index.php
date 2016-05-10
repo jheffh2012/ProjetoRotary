@@ -6,6 +6,7 @@ require_once 'api/vendor/autoload.php';
 require_once 'api/class/cidade.php';
 require_once 'api/class/estado.php';
 require_once 'api/class/pais.php';
+require_once 'api/class/distrito.php';
 
 header("Content-Type: text/html; charset=utf-8",true);
 
@@ -20,9 +21,10 @@ $app->before(function(Request $request) {
     }
 });
 
-$cidade = $app['controllers_factory'];
-$estado = $app['controllers_factory'];
-$pais   = $app['controllers_factory'];
+$cidade   = $app['controllers_factory'];
+$estado   = $app['controllers_factory'];
+$pais     = $app['controllers_factory'];
+$distrito = $app['controllers_factory'];
 
 $pais->get('/', function () {
 	$p = new Pais;
@@ -84,8 +86,68 @@ $cidade->put('/', function (Request $request) {
 	}
 });
 
+$distrito->get('/', function () {
+	$d = new Distrito;
+	try {
+		$lista = $d->getDistritos();
+		return $lista;
+	} catch (Exception $e) {
+		return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+	}
+});
+
+$distrito->get('/{id}', function ($id) {
+	$d = new Distrito;
+	try {
+		$lista = $d->getDistrito($id);
+		return $lista;
+	} catch (Exception $e) {
+		return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+	}
+});
+
+$distrito->post('/{id}/cidades', function ($id) {
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->getCidadesDistrito($id);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+		}
+	}
+});
+
+$distrito->put('/', function (Request $request){
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->insertOrUpdate($dados);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+		}
+	}
+});
+
+$distrito->put('/{id}/cidades', function ($id) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->insertOrUpdateCidades($id, $dados);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+		}
+	}
+});
+
+
 $app->mount('cidade', $cidade);
 $app->mount('estado', $estado);
 $app->mount('pais'  , $pais);
+$app->mount('distrito', $distrito);
 
 $app->run();
