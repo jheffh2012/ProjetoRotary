@@ -57,4 +57,30 @@
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 			}
 		}
+
+		public function insertOrUpdate ($dados) {
+			$app = new App;
+			$retorno = new Retorno;
+			try {
+				$app->connectbd();
+				if (isset($dados->idclubes)) {
+					$sql = "UPDATE clubes SET descricao = :descricao, codigo_cidade = :codigo_cidade, associados = :associados WHERE idclubes = ". $dados->idclubes;
+				} else {
+					$sql = "INSERT INTO clubes (descricao, codigo_cidade, associados) VALUES (:descricao, :codigo_cidade, :associados)";
+				}
+
+				$stm = $app->conexao->preprare($sql);
+				$stm->bindParam(':descricao', $dados->descricao, PARAM_STR);
+				$stm->bindParam(':codigo_cidade', $dados->codigo_cidade, PARAM_INT);
+				$stm->bindParam(':associados', $dados->associados, PARAM_INT);
+				$stm->execute();
+
+				$retorno->retorno = true;
+				return json_encode($retorno, JSON_UNESCAPED_UNICODE);
+			} catch (PDOException $e) {
+				$retorno->retorno = false;
+				$retorno->mensagem = $e->getMessage();
+				return json_encode($retorno, JSON_UNESCAPED_UNICODE);
+			}
+		}
 	}
