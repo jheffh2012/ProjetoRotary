@@ -21,7 +21,7 @@
 		public function insertOrUpdate ($dados) {
 			$app = New App;
 			try {
-				$sql = "INSERT INTO pais (nome, sigla) VALUES (:nome, :sigla)";
+				$sql = "INSERT INTO pais (nome, status) VALUES (:nome, 0)";
 				$app->connectbd;
 				$stm = $app->conexao->prepare();
 				$stm->bindParam(':nome', $dados->nome_pais, PARAM_STR);

@@ -101,7 +101,7 @@
 						foreach ($cidades as $c) {
 							$stm->bindParam(':codigo_cidades', $c->codigo_cidades, PARAM_INT);
 							$stm->execute();
-							if ($stm->rowCount() = 0) {
+							if ($stm->rowCount() == 0) {
 								$sqlDelete = "DELETE FROM distrito_cidades WHERE codigo_distrito = ".$idDistrito." AND codigo_cidades = ".$c->codigo_cidades;
 								$stmDel = $app->conexao->prepare($sqlDelete);
 								$stmDel->execute();
@@ -114,7 +114,7 @@
 						foreach ($cidades as $c) {
 							$stm->bindParam(':codigo_cidades', $c->codigo_cidades);
 							$stm->execute();
-							if ($stm->rowCount() = 0) {
+							if ($stm->rowCount() == 0) {
 								$stmInsert = $app->conexao->prepare($sqlInsert);
 								$stmInsert->bindParam(':codigo_distrito', $c->codigo_distrito, PARAM_INT);
 								$stmInsert->bindParam(':codigo_cidades', $c->codigo_cidades, PARAM_INT);

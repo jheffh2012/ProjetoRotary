@@ -18,7 +18,7 @@ use `rotary` ;
 -- table `rotary`.`distritos`
 -- -----------------------------------------------------
 create table if not exists `rotary`.`distritos` (
-  `iddistritos` int not null,
+  `iddistritos` int not null auto_increment,
   `descricao` varchar(120) null,
   primary key (`iddistritos`))
 engine = innodb;
@@ -28,7 +28,7 @@ engine = innodb;
 -- table `rotary`.`pais`
 -- -----------------------------------------------------
 create table if not exists `rotary`.`pais` (
-  `id` int not null,
+  `id` int not null auto_increment,
   `nome` varchar(120) null,
   `sigla` varchar(3) null,
   primary key (`id`))
@@ -57,7 +57,7 @@ engine = innodb;
 -- table `rotary`.`cidades`
 -- -----------------------------------------------------
 create table if not exists `rotary`.`cidades` (
-  `idcidades` int not null,
+  `idcidades` int not null auto_increment,
   `descricao` varchar(120) not null,
   `estados_idestados` int not null,
   `populacao` int null,
@@ -75,10 +75,9 @@ engine = innodb;
 -- table `rotary`.`clubes`
 -- -----------------------------------------------------
 create table if not exists `rotary`.`clubes` (
-  `idclubes` int not null,
+  `idclubes` int not null auto_increment,
   `descricao` varchar(60) null,
   `codigo_cidade` int not null,
-  `associados` int not null,
   primary key (`idclubes`),
   index `fk_clubes_cidades1_idx` (`codigo_cidade` asc),
   constraint `fk_clubes_cidades1`
@@ -93,7 +92,7 @@ engine = innodb;
 -- table `rotary`.`pessoa`
 -- -----------------------------------------------------
 create table if not exists `rotary`.`pessoa` (
-  `idpessoa` int not null,
+  `idpessoa` int not null auto_increment,
   `nomerazao` varchar(120) null,
   `apelidofantasia` varchar(120) null,
   `cpfcnpj` varchar(18) null,
