@@ -18,6 +18,21 @@
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);				
 			}
 		}
+
+		public function getPaisesAtivos () {
+			$app = new App;
+			try {
+				$sql = "SELECT * FROM pais WHERE status = 1";
+				$app->connectbd();
+				$stm = $app->conexao->prepare($sql);
+				$stm->execute();
+				$dados = $stm->fetchAll(PDO::FETCH_ASSOC);
+				return json_encode($dados, JSON_UNESCAPED_UNICODE);
+			} catch (PDOException $e) {
+				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);				
+			}
+		}
+
 		public function insertOrUpdate ($dados) {
 			$app = New App;
 			try {

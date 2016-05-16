@@ -7,7 +7,15 @@ rotary.factory("paisesService", function ($http) {
 		});
 	}
 
+	var _getPaisesAtivos = function () {
+		return $http({
+			method : "get",
+			url    : "api/index.php/pais/ativos"
+		});
+	}
+
 	return {
-		getPaises : _getPaises
+		getPaises : _getPaises,
+		getPaisesAtivos : _getPaisesAtivos
 	};
 });

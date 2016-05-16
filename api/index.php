@@ -37,17 +37,45 @@ $pais->get('/', function () {
 	}
 });
 
+$pais->get('/ativos', function () {
+	$p = new Pais;
+	try {
+		$lista = $p->getPaisesAtivos();
+		return $lista;
+	} catch (Exception $e) {
+		return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+	}
+});
+
+$estado->get('/', function () {
+	$e = new Estado;
+	try {
+		return $lista = $e->getEstados();
+	} catch (Exception $e) {
+		return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+	}
+});
+
 $estado->post('/', function (Request $request) {
 	$idpais = json_decode($request->getContent());
 
 	if (isset($idpais)) {
 		$e = new Estado;
 		try {
-			$lista = $e->getEstados($idpais);
+			$lista = $e->getEstadosPais($idpais);
 			return $lista;
 		} catch (Exception $e) {
 			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
 		}
+	}
+});
+
+$cidade->get('/', function () {
+	$c = new Cidade;
+	try {
+		return $lista = $c->getCidades();
+	} catch (Exception $e) {
+		return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 	}
 });
 
@@ -56,7 +84,7 @@ $cidade->post('/', function (Request $request) {
 	if (isset($uf)) {
 		$c = new Cidade;
 		try {
-			$lista = $c->getCidades($uf);
+			$lista = $c->getCidadesEstado($uf);
 			return $lista;
 		} catch (Exception $e) {
 			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));

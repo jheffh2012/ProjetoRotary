@@ -1,10 +1,14 @@
-var rotary = angular.module('rotary', ["ngRoute", "duScroll"]).value('duScrollDuration', 2000);
+var rotary = angular.module('rotary', ["ngRoute", "duScroll", "ui.bootstrap", "angularUtils.directives.dirPagination"]).value('duScrollDuration', 2000);
 
 rotary.config(function ($routeProvider, $locationProvider) {
 	$routeProvider
 	.when('/paises', {
 		templateUrl : 'view/paises.php',
 		controller : 'paisesController'
+	})
+	.when('/cidades', {
+		templateUrl : "view/cidades.php",
+		controller : 'cidadesController'
 	})
 
 

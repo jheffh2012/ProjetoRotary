@@ -2,10 +2,24 @@
 	require_once "/../bd/bd.php";
 
 	class Cidade {
-		public function getCidades ($idestado) {
+		public function getCidades () {
 			$app = new App;
 			try {
-				$sql = "SELECT * FROM cidades WHERE estados_idestados = ".$idestado;
+				$sql = "SELECT c.descricao, c.populacao, e.sigla, e.estado FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados)";
+				$app->connectbd();
+				$stm = $app->conexao->prepare($sql);
+				$stm->execute();
+				$dados = $stm->fetchAll(PDO::FETCH_ASSOC);
+				return json_encode($dados, JSON_UNESCAPED_UNICODE);
+			} catch (PDOException $e) {
+				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+			}
+		}
+
+		public function getCidadesEstado ($idestado) {
+			$app = new App;
+			try {
+				$sql = "SELECT c.descricao, c.populacao, e.sigla, e.estado FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados) WHERE e.idestados = ".$idestado;
 				$app->connectbd();
 				$stm = $app->conexao->prepare($sql);
 				$stm->execute();

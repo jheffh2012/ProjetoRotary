@@ -5,6 +5,8 @@
 	<meta charset="UTF-8">
 
 	<script type="text/javascript" src="js/jquery/jquery-1.12.3.min.js"></script>
+	<!-- <link rel="stylesheet" type="text/css" href="js/jquery/jquery.datatables.min.css"> -->
+	<!-- <script type="text/javascript" src="js/jquery/jquery.datatables.min.js"></script> -->
 	<script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
 	<script type="text/javascript" src="js/angular/angular.min.js"></script>
@@ -12,12 +14,16 @@
 	<script type="text/javascript" src="js/angular/angular-sanitize.min.js"></script>
 	<script type="text/javascript" src="js/angular/angular-route.min.js"></script>
 	<script type="text/javascript" src="js/angular/angular-scroll.min.js"></script>
+	<script type="text/javascript" src="js/angular/dirPagination.js"></script>
 	<script type="text/javascript" src="js/app.module.js"></script>
 	<!-- Serviços -->
 	<script type="text/javascript" src="js/services/paises.js"></script>
+	<script type="text/javascript" src="js/services/estado.js"></script>
+	<script type="text/javascript" src="js/services/cidade.js"></script>
 
 	<!-- Controller -->
 	<script type="text/javascript" src="js/controllers/pais.js"></script>
+	<script type="text/javascript" src="js/controllers/cidade.js"></script>
 </head>
 <body ng-app="rotary">
 	<nav class="navbar navbar-default">
@@ -26,8 +32,8 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="#/paises">Países</a></li>
-					<li><a href="#">Estados</a></li>
-					<li><a href="#">Cidades</a></li>
+					<li><a href="#/estados">Estados</a></li>
+					<li><a href="#/cidades">Cidades</a></li>
 					<li role="separator" class="divider"></li>
 					<li><a href="#">Distritos</a></li>
 					<li><a href="#">Clubes</a></li>
