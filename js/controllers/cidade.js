@@ -3,7 +3,6 @@ rotary.controller('cidadesController', function ($scope, cidadesService, estados
 	$scope.paises = [];
 	$scope.estados = [];
 
-
 	$scope.getCidades = function (codigoestado) {
 		cidadesService.getCidadesEstado(codigoestado).then(function (data) {
 			$scope.cidades = data.data;
@@ -29,6 +28,20 @@ rotary.controller('cidadesController', function ($scope, cidadesService, estados
 			$scope.erro = err.data;
 		})
 	}
+
+	$scope.sort = function (nameCol) {
+		if ($scope.nameCol == nameCol) {
+			$scope.sortKey = $scope.nameCol;
+
+			$scope.nameCol = 'sem ordenação';
+			$scope.reverse = true;
+		} else {
+			$scope.nameCol = nameCol;
+			$scope.sortKey = $scope.nameCol;
+			reverse = false;
+		}
+	}
+
 	$scope.carregarPaises();
 //	$scope.getCidades();
 })

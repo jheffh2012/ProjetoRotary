@@ -40,3 +40,6 @@ rotary.config(function ($routeProvider, $locationProvider) {
 	// 	controller  : 'artigoController'
 	// })
 });
+rotary.config(function (paginationTemplateProvider) {
+	paginationTemplateProvider.setPath('js/angular/dirPagination.tpl.html');
+})

@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="js/angular/angular-route.min.js"></script>
 	<script type="text/javascript" src="js/angular/angular-scroll.min.js"></script>
 	<script type="text/javascript" src="js/angular/dirPagination.js"></script>
+
 	<script type="text/javascript" src="js/app.module.js"></script>
 	<!-- Serviços -->
 	<script type="text/javascript" src="js/services/paises.js"></script>
