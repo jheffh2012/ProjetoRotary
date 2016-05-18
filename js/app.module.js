@@ -10,6 +10,14 @@ rotary.config(function ($routeProvider, $locationProvider) {
 		templateUrl : "view/cidades.php",
 		controller : 'cidadesController'
 	})
+	.when('/estados', {
+		templateUrl : "view/estados.php",
+		controller  : "estadosController"
+	})
+	.when('/distritos', {
+		templateUrl : "view/distritos.php",
+		controller  : "distritosController"
+	})
 
 
 	//$routeProvider

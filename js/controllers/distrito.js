@@ -1,9 +1,9 @@
-rotary.controller('paisesController', function ($scope, paisesService) {
-	$scope.paises = [];
+rotary.controller('distritosController', function ($scope, distritosService) {
+	$scope.distritos = [];
 
-	$scope.getPaises = function () {
-		paisesService.getPaises().then(function (data) {
-			$scope.paises = data.data;			
+	$scope.getDistritos = function () {
+		distritosService.getDistritos().then(function (data) {
+			$scope.distritos = data.data;			
 		}, function (err) {
 			$scope.erro = err.data;
 		});
@@ -22,5 +22,5 @@ rotary.controller('paisesController', function ($scope, paisesService) {
 		}
 	};
 
-	$scope.getPaises();
+	$scope.getDistritos();
 })

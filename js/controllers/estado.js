@@ -1,22 +1,11 @@
-rotary.controller('cidadesController', function ($scope, cidadesService, estadosService, paisesService) {
-	$scope.cidades = [];
+rotary.controller('estadosController', function ($scope, estadosService, paisesService) {
 	$scope.paises = [];
 	$scope.estados = [];
 
-	$scope.getCidades = function (codigoestado) {
-		cidadesService.getCidadesEstado(codigoestado).then(function (data) {
-			$scope.cidades = data.data;
-		}, function (err) {
-			$scope.erro = err.data;
-		});
-	};
-
 	$scope.carregarPaises = function () {
 		paisesService.getPaisesAtivos().then(function (data) {
-			$scope.filtrarPais = true;
 			$scope.paises = data.data;
 		}, function (err) {
-			$scope.passos = 0;
 			$scope.erro = err.data;
 		})
 	};
@@ -43,5 +32,4 @@ rotary.controller('cidadesController', function ($scope, cidadesService, estados
 	};
 
 	$scope.carregarPaises();
-//	$scope.getCidades();
 })

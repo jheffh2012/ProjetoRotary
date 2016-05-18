@@ -10,7 +10,7 @@
 				$stm = $app->conexao->preprare($sql);
 				$stm->execute();
 				$lista = $stm->fetchAll(PDO::FETCH_ASSOC);
-				return json_encode($lista, JSON_UNESCAPED_UNICODE);
+				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			} catch (PDOException $e) {
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 			}
@@ -24,7 +24,7 @@
 				$stm = $app->conexao->preprare($sql);
 				$stm->execute();
 				$lista = $stm->fetch(PDO::FETCH_OBJ);
-				return json_encode($lista, JSON_UNESCAPED_UNICODE);
+				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			} catch (PDOException $e) {
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 			}
@@ -38,7 +38,7 @@
 				$stm = $app->conexao->preprare($sql);
 				$stm->execute();
 				$lista = $stm->fetchAll(PDO::FETCH_ASSOC);
-				return json_encode($lista, JSON_UNESCAPED_UNICODE);
+				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			} catch (PDOException $e) {
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 			}
@@ -52,7 +52,7 @@
 				$stm = $app->conexao->preprare($sql);
 				$stm->execute();
 				$lista = $stm->fetchAll(PDO::FETCH_ASSOC);
-				return json_encode($lista, JSON_UNESCAPED_UNICODE);
+				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			} catch (PDOException $e) {
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 			}

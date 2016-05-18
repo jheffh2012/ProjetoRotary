@@ -13,7 +13,7 @@
 				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
 				$dados = $stm->fetchAll(PDO::FETCH_ASSOC);
-				return json_encode($dados, JSON_UNESCAPED_UNICODE);
+				return json_encode($dados, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			} catch (PDOException $e) {
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);				
 			}
@@ -27,7 +27,7 @@
 				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
 				$dados = $stm->fetchAll(PDO::FETCH_ASSOC);
-				return json_encode($dados, JSON_UNESCAPED_UNICODE);
+				return json_encode($dados, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			} catch (PDOException $e) {
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);				
 			}

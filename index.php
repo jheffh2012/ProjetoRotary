@@ -21,10 +21,13 @@
 	<script type="text/javascript" src="js/services/paises.js"></script>
 	<script type="text/javascript" src="js/services/estado.js"></script>
 	<script type="text/javascript" src="js/services/cidade.js"></script>
+	<script type="text/javascript" src="js/services/distrito.js"></script>
 
 	<!-- Controller -->
 	<script type="text/javascript" src="js/controllers/pais.js"></script>
+	<script type="text/javascript" src="js/controllers/estado.js"></script>
 	<script type="text/javascript" src="js/controllers/cidade.js"></script>
+	<script type="text/javascript" src="js/controllers/distrito.js"></script>
 </head>
 <body ng-app="rotary">
 	<nav class="navbar navbar-default">
@@ -36,7 +39,7 @@
 					<li><a href="#/estados">Estados</a></li>
 					<li><a href="#/cidades">Cidades</a></li>
 					<li role="separator" class="divider"></li>
-					<li><a href="#">Distritos</a></li>
+					<li><a href="#/distritos">Distritos</a></li>
 					<li><a href="#">Clubes</a></li>
 				</ul>
 			</li>

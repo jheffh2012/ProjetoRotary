@@ -7,6 +7,7 @@ require_once 'class/cidade.php';
 require_once 'class/estado.php';
 require_once 'class/pais.php';
 require_once 'class/distrito.php';
+require_once 'class/clube.php';
 
 header("Content-Type: text/html; charset=utf-8",true);
 
@@ -135,8 +136,8 @@ $distrito->get('/{id}', function ($id) {
 	}
 });
 
-$distrito->post('/{id}/cidades', function ($id) {
-	if (isset($dados)) {
+$distrito->get('/{id}/cidades', function ($id) {
+	if (isset($id)) {
 		$d = new Distrito;
 		try {
 			$lista = $d->getCidadesDistrito($id);

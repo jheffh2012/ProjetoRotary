@@ -13,14 +13,16 @@
 	<table class="table table-bordered">
 		<thead>
 			<tr>
-				<th class="col-xs-5">Pais</th>
+				<th class="col-xs-5" ng-click="sort('nome')">Pais
+				<span class="glyphicon sort-icon" ng-show="sortKey=='nome'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+				</th>
 				<th class="col-xs-2">Status</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="p in paises | filter:searchText |itemsPerPage:10">
+			<tr dir-paginate="p in paises | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:10">
 				<td>{{p.nome}}</td>
-				<td class="col-xs-2">
+				<td>
 					<a ng-show="{{p.STATUS == 0}}" class="btn btn-primary pull-center form-control">Ativar</a>
 					<a ng-show="{{p.STATUS == 1}}" class="btn btn-danger pull-center form-control">Inativar</a>
 				</td>

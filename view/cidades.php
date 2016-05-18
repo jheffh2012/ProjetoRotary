@@ -51,11 +51,17 @@
 			<thead>
 				<tr>
 					<th class="col-xs-6" style="text-align: center" ng-click="sort('descricao')">Cidade
-						<span class="glyphicon sort-icon" ng-show="sortKey=='descricao'" ng-class="{'glyphicon glyphicon-chevron-up':reverse, 'glyphicon glyphicon-chevron-down':!reverse}"></span>
+						<span class="glyphicon sort-icon" ng-show="sortKey=='descricao'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
 					</th>
-					<th class="col-xs-2" style="text-align: center">UF</th>
-					<th class="col-xs-2" style="text-align: center">Nome Estado</th>
-					<th class="col-xs-2" style="text-align: center">População</th>
+					<th class="col-xs-2" style="text-align: center" ng-click="sort('sigla')">UF
+						<span class="glyphicon sort-icon" ng-show="sortKey=='sigla'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+					</th>
+					<th class="col-xs-2" style="text-align: center" ng-click="sort('estado')">Nome Estado
+						<span class="glyphicon sort-icon" ng-show="sortKey=='estado'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+					</th>
+					<th class="col-xs-2" style="text-align: center" ng-click="sort('populacao')">População
+						<span class="glyphicon sort-icon" ng-show="sortKey=='populacao'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
