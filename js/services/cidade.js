@@ -18,7 +18,7 @@ rotary.factory("cidadesService", function ($http) {
 	var _getCidade = function (codigocidade) {
 		return $http({
 			method : "get",
-			url    : "api/index.php/ciade/"+codigocidade
+			url    : "api/index.php/cidade/"+codigocidade
 		})
 	};
 

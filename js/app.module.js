@@ -18,6 +18,14 @@ rotary.config(function ($routeProvider, $locationProvider) {
 		templateUrl : "view/distritos.php",
 		controller  : "distritosController"
 	})
+	.when('/novodistrito', {
+		templateUrl : "view/dadosdistrito.php",
+		controller  : "novodistritoController"
+	})
+	.when('/editadistrito/:iddistrito', {
+		templateUrl : "view/dadosdistrito.php",
+		controller  : "editadistritoController"
+	})
 
 
 	//$routeProvider

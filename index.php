@@ -28,12 +28,14 @@
 	<script type="text/javascript" src="js/controllers/estado.js"></script>
 	<script type="text/javascript" src="js/controllers/cidade.js"></script>
 	<script type="text/javascript" src="js/controllers/distrito.js"></script>
+	<script type="text/javascript" src="js/controllers/novodistrito.js"></script>
+	<script type="text/javascript" src="js/controllers/editadistrito.js"></script>
 </head>
 <body ng-app="rotary">
 	<nav class="navbar navbar-default">
 		<ul class="nav navbar-nav">
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
+				<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="#/paises">Países</a></li>
 					<li><a href="#/estados">Estados</a></li>

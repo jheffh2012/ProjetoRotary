@@ -21,7 +21,7 @@ rotary.factory("distritosService", function ($http) {
 		});
 	};
 
-	var _inserOrUpdate = function (dados) {
+	var _insertOrUpdate = function (dados) {
 		return $http({
 			method : "put",
 			url    : "api/index.php/distrito/",
@@ -35,13 +35,22 @@ rotary.factory("distritosService", function ($http) {
 			url    : "api/index.php/distrito/"+ codigoDistrito + "/cidades",
 			data   : cidades
 		});
-	}
+	};
+
+	var _deleteDistrito = function (codigoDistrito) {
+		return $http({
+			method : "delete",
+			url    : "api/index.php/distrito/",
+			data   : codigoDistrito
+		});
+	};
 
 	return {
 		getDistritos : _getDistritos,
 		getDistrito  : _getDistrito,
 		getCidadesDistrito : _getCidadesDistrito,
-		insertOrUpdate : _inserOrUpdate,
-		insertOrUpdateCidades : _insertOrUpdateCidades
+		insertOrUpdate : _insertOrUpdate,
+		deleteDistrito : _deleteDistrito
+		// insertOrUpdateCidades : _insertOrUpdateCidades
 	};
 });

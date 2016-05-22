@@ -169,7 +169,20 @@ $distrito->put('/{id}/cidades', function ($id) {
 			$lista = $d->insertOrUpdateCidades($id, $dados);
 			return $lista;
 		} catch (Exception $e) {
-			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
+$distrito->delete('/', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->deleteDistrito($dados);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 		}
 	}
 });

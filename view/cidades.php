@@ -15,8 +15,8 @@
 				<i ng-show="loadingPaises" class="glyphicon-refresh"></i>
 				<div ng-show="noResultsPais">
 					<i class="glyphicon glyphicon-remove">Não Existem dados</i>
-				</div>		
-			</div>				
+				</div>
+			</div>
 			<label for="inputEstado" class="col-sm-1 control-label">Estado:</label>
 			<div class="col-sm-5">
 				<input type="text" ng-model="filtroEstados" placeholder="Selecione o Estado" uib-typeahead="est as est.estado for est in estados | filter:{estado:$viewValue}" typeahead-loading="loadingEstados" typeahead-no-results="noResults" class="form-control" id="inputEstado" ng-focus="carregarEstados(filtroPaises.id)">

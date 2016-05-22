@@ -5,7 +5,7 @@
 		public function getCidades () {
 			$app = new App;
 			try {
-				$sql = "SELECT c.descricao, c.populacao, e.sigla, e.estado FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados)";
+				$sql = "SELECT c.idcidades, c.descricao, c.populacao, e.sigla, e.estado FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados)";
 				$app->connectbd();
 				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
@@ -19,7 +19,7 @@
 		public function getCidadesEstado ($idestado) {
 			$app = new App;
 			try {
-				$sql = "SELECT c.descricao, c.populacao, e.sigla, e.estado FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados) WHERE e.idestados = ".$idestado;
+				$sql = "SELECT c.idcidades, c.descricao, c.populacao, e.sigla, e.estado FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados) WHERE e.idestados = ".$idestado;
 				$app->connectbd();
 				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
@@ -33,7 +33,7 @@
 		public function getCidade ($idcidade) {
 			$app = new App;
 			try {
-				$sql = "SELECT * FROM cidades WHERE idcidades = ".$idcidade;
+				$sql = "SELECT c.idcidades, c.descricao, c.populacao, e.sigla, e.estado FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados) WHERE c.idcidades = ".$idcidade;
 				$app->connectbd();
 				$stm = $app->conexao->prepare($sql);
 				$stm->execute();

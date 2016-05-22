@@ -9,6 +9,17 @@ rotary.controller('distritosController', function ($scope, distritosService) {
 		});
 	};
 
+	$scope.deleteDistrito = function (idDistrito) {
+		distritosService.deleteDistrito(idDistrito).then(function (data) {
+			$scope.retorno = data.data;
+			if (!$scope.retorno.retorno) {
+				$scope.erro = $scope.retorno.mensagem;
+			} else {
+				$scope.getDistritos();
+			}
+		});
+	};
+
 	$scope.sort = function (nameCol) {
 		if ($scope.nameCol == nameCol) {
 			$scope.sortKey = $scope.nameCol;

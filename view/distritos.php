@@ -12,7 +12,7 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-2">
-					<button class="btn btn-primary form-control">Incluir</button>
+					<a href="#/novodistrito" class="btn btn-success form-control">Incluir</a>
 				</div>
 			</div>
 			<div class="container" style="height: 10px">
@@ -32,10 +32,10 @@
 					<tr dir-paginate="d in distritos | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:10">
 						<td>{{d.descricao}}</td>
 						<td>
-							<a class="btn btn-primary pull-center form-control">Alterar</a>
+							<a href="#/editadistrito/{{d.iddistritos}}" class="btn btn-primary pull-center form-control">Alterar</a>
 						</td>
 						<td>
-							<a class="btn btn-danger pull-center form-control">Deletar</a>
+							<a class="btn btn-danger pull-center form-control" ng-click="deleteDistrito(d.iddistritos)">Deletar</a>
 						</td>
 					</tr>
 				</tbody>
