@@ -44,6 +44,29 @@
 			}
 		}
 
+		public function atualizaPopulacao ($cidades) {
+			if (isset($cidades)) {
+				$app = new App;
+				$retorno = new Retorno;
+				$sql = "UPDATE cidades SET populacao = :populacao WHERE idcidades = :idcidades";
+				try {
+					$app->connectbd();
+					$stm = $app->conexao->prepare($sql);
+					foreach ($cidades as $cidade) {
+						$stm->bindParam(':populacao', $cidade->populacao, PDO::PARAM_INT);
+						$stm->bindParam(':idcidades', $cidade->idcidades, PDO::PARAM_INT);
+						$stm->execute();
+					}
+					$retorno->retorno = true;
+					return json_encode($retorno, JSON_UNESCAPED_UNICODE);
+				} catch (PDOException $e) {
+					$retorno->retorno = false;
+					$retorno->mensagem = $e->getMessage();
+					return json_encode($retorno, JSON_UNESCAPED_UNICODE);
+				}
+			}
+		}
+
 		public function insertOrUpdate ($dados) {
 			$app = new App;
 			$retorno = new Retorno;

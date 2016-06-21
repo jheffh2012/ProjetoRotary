@@ -5,9 +5,9 @@
 		public function getClubes () {
 			$app = new App;
 			try {
-				$sql = "SELECT * FROM clubes";
+				$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades)";
 				$app->connectbd();
-				$stm = $app->conexao->preprare($sql);
+				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
 				$lista = $stm->fetchAll(PDO::FETCH_ASSOC);
 				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
@@ -19,9 +19,9 @@
 		public function getClube ($idClube) {
 			$app = new App;
 			try {
-				$sql = "SELECT * FROM clubes WHERE idclubes = ". $idClube;
+				$sql = "SELECT * FROM clubes c WHERE c.idclubes = ". $idClube;
 				$app->connectbd();
-				$stm = $app->conexao->preprare($sql);
+				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
 				$lista = $stm->fetch(PDO::FETCH_OBJ);
 				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
@@ -30,12 +30,62 @@
 			}
 		}
 
+		public function insertClubesSocios ($data, $clubes) {
+			$app = new App;
+			$retorno = new Retorno;
+			try {
+				$sql = "SELECT * FROM clubes_socios WHERE data = :data AND clubes_idclubes = :clubes_idclubes";
+				$sqlUpdate = "UPDATE clubes_socios SET socios = :socios WHERE clubes_idclubes = :clubes_idclubes AND data = :data";
+				$sqlInsert = "INSERT INTO clubes_socios (clubes_idclubes, data, socios) VALUES (:clubes_idclubes, :data, :socios)";
+				$app->connectbd();
+				if (count($clubes) > 0) {
+					$app->conexao->beginTransaction();
+					$stm = $app->conexao->prepare($sql);
+					$stmUpdate = $app->conexao->prepare($sqlUpdate);
+					$stmInsert = $app->conexao->prepare($sqlInsert);
+					try {
+						foreach ($clubes as $clube) {
+							$stm->bindParam(':data', $data, PDO::PARAM_STR);
+							$stm->bindParam(':clubes_idclubes', $clube->idclubes, PDO::PARAM_INT);
+							$stm->execute();
+							$dados = $stm->fetchAll(PDO::FETCH_ASSOC);
+							if (count($dados) > 0) {
+								$stmUpdate->bindParam(':data', $data, PDO::PARAM_DATE);
+								$stmUpdate->bindParam(':socios', $clube->socios, PDO::PARAM_INT);
+								$stmUpdate->bindParam(':clubes_idclubes', $clubes->idclubes, PDO::PARAM_INT);
+								$stmUpdate->execute();
+							} else {
+								$dateTemp = new Datetime($data);
+								$temp = $dateTemp->format('Y-m-d');
+								$stmInsert->bindParam(':data', $temp, PDO::PARAM_STR);
+								$stmInsert->bindParam(':socios', $clube->socios, PDO::PARAM_INT);
+								$stmInsert->bindParam(':clubes_idclubes', $clube->idclubes, PDO::PARAM_INT);
+								$stmInsert->execute();
+							}
+						}
+						$app->conexao->commit();
+						$retorno->retorno = true;
+						return json_encode($retorno, JSON_UNESCAPED_UNICODE);
+					} catch (Exception $e) {
+						$app->conexao->rollback();
+						$retorno->retorno = false;
+						$retorno->mensagem = $e->getMessage();
+						return json_encode($retorno, JSON_UNESCAPED_UNICODE);
+					}					
+				}
+			} catch (PDOException $e) {
+				$retorno->retorno = false;
+				$retorno->mensagem = $e->getMessage();
+				return json_encode($retorno, JSON_UNESCAPED_UNICODE);
+			}
+		}
+
 		public function getClubesCidade ($idCidade) {
 			$app = new App;
 			try {
-				$sql = "SELECT * FROM clubes WHERE codigo_cidade = ".$idCidade;
+				$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades) WHERE c.codigo_cidade = ".$idCidade;
 				$app->connectbd();
-				$stm = $app->conexao->preprare($sql);
+				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
 				$lista = $stm->fetchAll(PDO::FETCH_ASSOC);
 				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
@@ -47,9 +97,9 @@
 		public function getClubesDistrito ($idDistrito) {
 			$app = new App;
 			try {
-				$sql = "SELECT c.* FROM clubes c INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades) INNER JOIN distrito_cidades dc on (cd.idcidades = dc.codigo_cidade) WHERE dc.codigo_distrito = ".$idDistrito;
+				$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades) WHERE d.iddistritos = ".$idDistrito;
 				$app->connectbd();
-				$stm = $app->conexao->preprare($sql);
+				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
 				$lista = $stm->fetchAll(PDO::FETCH_ASSOC);
 				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
@@ -64,15 +114,15 @@
 			try {
 				$app->connectbd();
 				if (isset($dados->idclubes)) {
-					$sql = "UPDATE clubes SET descricao = :descricao, codigo_cidade = :codigo_cidade, associados = :associados WHERE idclubes = ". $dados->idclubes;
+					$sql = "UPDATE clubes SET descricao = :descricao, codigo_cidade = :codigo_cidade, distritos_iddistritos = :distritos_iddistritos WHERE idclubes = ". $dados->idclubes;
 				} else {
-					$sql = "INSERT INTO clubes (descricao, codigo_cidade, associados) VALUES (:descricao, :codigo_cidade, :associados)";
+					$sql = "INSERT INTO clubes (descricao, codigo_cidade, distritos_iddistritos) VALUES (:descricao, :codigo_cidade, :distritos_iddistritos)";
 				}
 
-				$stm = $app->conexao->preprare($sql);
-				$stm->bindParam(':descricao', $dados->descricao, PARAM_STR);
-				$stm->bindParam(':codigo_cidade', $dados->codigo_cidade, PARAM_INT);
-				$stm->bindParam(':associados', $dados->associados, PARAM_INT);
+				$stm = $app->conexao->prepare($sql);
+				$stm->bindParam(':descricao', $dados->descricao, PDO::PARAM_INT);
+				$stm->bindParam(':codigo_cidade', $dados->cidade->idcidades, PDO::PARAM_INT);
+				$stm->bindParam(':distritos_iddistritos', $dados->distrito->iddistritos, PDO::PARAM_INT);
 				$stm->execute();
 
 				$retorno->retorno = true;
@@ -81,6 +131,26 @@
 				$retorno->retorno = false;
 				$retorno->mensagem = $e->getMessage();
 				return json_encode($retorno, JSON_UNESCAPED_UNICODE);
+			}
+		}
+
+		public function deleteClube ($codigoClube) {
+			if ($codigoClube) {
+				$app = new App;
+				$retorno = new Retorno;
+				try {
+					$sql = "DELETE FROM clubes WHERE idclubes = ". $codigoClube;
+					$app->connectbd();
+					$stm = $app->conexao->prepare($sql);
+					$stm->execute();
+
+					$retorno->retorno = true;
+					return json_encode($retorno, JSON_UNESCAPED_UNICODE);
+				} catch (PDOException $e) {
+					$retorno->retorno = false;
+					$retorno->mensagem = $e->getMessage();
+					return json_encode($retorno, JSON_UNESCAPED_UNICODE);
+				}
 			}
 		}
 	}

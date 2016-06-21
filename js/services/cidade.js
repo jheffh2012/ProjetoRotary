@@ -22,9 +22,18 @@ rotary.factory("cidadesService", function ($http) {
 		})
 	};
 
+	var _atualizaPopulacao = function (cidades) {
+		return $http({
+			method : "put",
+			url    : "api/index.php/cidade/atualizapopulacao",
+			data   : cidades
+		})
+	}
+
 	return {
 		getCidades : _getCidades,
 		getCidadesEstado : _getCidadesEstado,
-		getCidade : _getCidade
+		getCidade : _getCidade,
+		atualizaPopulacao : _atualizaPopulacao
 	};
 });

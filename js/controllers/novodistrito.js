@@ -77,7 +77,7 @@ rotary.controller('novodistritoController', function ($scope, cidadesService, es
 		distritosService.insertOrUpdate($scope.distrito).then(function (data) {
 			$scope.retorno = data.data;
 			if ($scope.retorno.retorno) {
-				window.location = "http://localhost/projetoRotary/index.php/distritos";
+				window.location = "http://localhost/projetoRotary/index.php#/distritos";
 			} else {
 				console.log($scope.retorno.mensagem);
 			}

@@ -20,6 +20,34 @@ SET time_zone = "+00:00";
 -- Database: `rotary`
 --
 
+DROP TABLE IF EXISTS `usuario`;
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `idusuario` BIGINT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NULL,
+  `usuario` VARCHAR(100) NULL,
+  `senha` VARCHAR(500) NULL,
+  PRIMARY KEY (`idusuario`));
+
+
+DROP TABLE IF EXISTS `usuario_distritos`;
+CREATE TABLE IF NOT EXISTS `usuario_distritos` (
+  `idusuario_distritos` BIGINT NOT NULL AUTO_INCREMENT,
+  `usuario_idusuario` BIGINT NOT NULL,
+  `DISTRITOS_IDDISTRITOS` INT NOT NULL,
+  PRIMARY KEY (`idusuario_distritos`, `usuario_idusuario`, `DISTRITOS_IDDISTRITOS`),
+  INDEX `fk_usuario_distritos_usuario1_idx` (`usuario_idusuario` ASC),
+  INDEX `fk_usuario_distritos_DISTRITOS1_idx` (`DISTRITOS_IDDISTRITOS` ASC),
+  CONSTRAINT `fk_usuario_distritos_usuario1`
+    FOREIGN KEY (`usuario_idusuario`)
+    REFERENCES `usuario` (`idusuario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_usuario_distritos_distritos1`
+    FOREIGN KEY (`distritos_iddistritos`)
+    REFERENCES `distritos` (`iddistritos`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
 -- --------------------------------------------------------
 
 --

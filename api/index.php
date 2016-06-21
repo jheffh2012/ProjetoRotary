@@ -1,6 +1,7 @@
 <?php
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use \Firebase\JWT\JWT;
 
 require_once 'vendor/autoload.php';
 require_once 'class/cidade.php';
@@ -8,6 +9,7 @@ require_once 'class/estado.php';
 require_once 'class/pais.php';
 require_once 'class/distrito.php';
 require_once 'class/clube.php';
+require_once 'class/usuario.php';
 
 header("Content-Type: text/html; charset=utf-8",true);
 
@@ -27,6 +29,8 @@ $estado   = $app['controllers_factory'];
 $pais     = $app['controllers_factory'];
 $distrito = $app['controllers_factory'];
 $clube    = $app['controllers_factory'];
+$usuario  = $app['controllers_factory'];
+$relatorios = $app['controllers_factory'];
 
 $pais->get('/', function () {
 	$p = new Pais;
@@ -109,6 +113,19 @@ $cidade->put('/', function (Request $request) {
 		$c = new Cidade;
 		try {
 			$lista = $c->insertOrUpdate($dados);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+		}
+	}
+});
+
+$cidade->put('/atualizapopulacao', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$c = new Cidade;
+		try {
+			$lista = $c->atualizaPopulacao($dados);
 			return $lista;
 		} catch (Exception $e) {
 			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
@@ -207,7 +224,7 @@ $clube->get('/{id}', function ($id) {
 	}
 });
 
-$clube->post('/distrito', function () {
+$clube->post('/distrito', function (Request $request) {
 	$dados = json_decode($request->getContent());
 	if (isset($dados)) {
 		$c = new Clube;
@@ -220,7 +237,7 @@ $clube->post('/distrito', function () {
 	}
 });
 
-$clube->post('/cidade', function () {
+$clube->post('/cidade', function (Request $request) {
 	$dados = json_decode($request->getContent());
 	if (isset($dados)) {
 		$c = new Clube;
@@ -233,7 +250,7 @@ $clube->post('/cidade', function () {
 	}
 });
 
-$clube->put('/', function () {
+$clube->put('/', function (Request $request) {
 	$dados = json_decode($request->getContent());
 	if (isset($dados)) {
 		$c = new Clube;
@@ -246,10 +263,124 @@ $clube->put('/', function () {
 	}
 });
 
+$clube->delete('/', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$c = new Clube;
+		try {
+			$lista = $c->deleteClube($dados);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
+$clube->post('/socios', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$c = new Clube;
+		try {
+			$lista = $c->insertClubesSocios($dados->data, $dados->clubes);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
+$usuario->post('/userexists', function (Request $request) {
+	$username = $request->getContent();
+	if (isset($username)) {
+		$u = New Usuario;
+		try {
+			$retorno = $u->userExists($username);
+			return $retorno;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
+$usuario->post('/login', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$u = new Usuario;
+		try {
+			$retorno = $u->Login($dados->usuario, $dados->senha);
+			return $retorno;
+		} catch (Exception $e) {
+			return json_encode("Erro ao efetuar Login! ".$e->getMessage(), JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
+$usuario->get('/', function (Request $request) {
+	$token = json_decode($request->getHeader());
+});
+
+$relatorios->post('/percapita', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->getPercapta($dados, 1);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(). JSON_UNESCAPED_UNICODE);
+		}
+	} else {
+		return json_encode("Vazio");
+	}
+});
+
+$relatorios->post('/melhorarpercapita', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->getPercapta($dados, 0);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(). JSON_UNESCAPED_UNICODE);
+		}
+	} else {
+		return json_encode("Vazio");
+	}
+});
+
+$relatorios->post('/maioresclubes', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->getTamanhoClubes($dados, 0);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(). JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
+$relatorios->post('/menoresclubes', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->getTamanhoClubes($dados, 1);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(). JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
 $app->mount('cidade', $cidade);
 $app->mount('estado', $estado);
 $app->mount('pais'  , $pais);
 $app->mount('distrito', $distrito);
 $app->mount('clube', $clube);
+$app->mount('usuario', $usuario);
+$app->mount('relatorios', $relatorios);
 
 $app->run();

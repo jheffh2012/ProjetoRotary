@@ -2,6 +2,10 @@ var rotary = angular.module('rotary', ["ngRoute", "duScroll", "ui.bootstrap", "a
 
 rotary.config(function ($routeProvider, $locationProvider) {
 	$routeProvider
+	.when('/', {
+		templateUrl : 'view/principal',
+		controller : 'principalController'
+	})
 	.when('/paises', {
 		templateUrl : 'view/paises.php',
 		controller : 'paisesController'
@@ -26,7 +30,42 @@ rotary.config(function ($routeProvider, $locationProvider) {
 		templateUrl : "view/dadosdistrito.php",
 		controller  : "editadistritoController"
 	})
-
+	.when('/clubes', {
+		templateUrl : "view/clubes.php",
+		controller  : "clubesController"
+	})
+	.when('/novoclube', {
+		templateUrl : "view/dadosclube.php",
+		controller  : "novoclubeController"
+	})
+	.when('/editaclube/:idclube', {
+		templateUrl : "view/dadosclube.php",
+		controller : "editaclubeController"
+	})
+	.when('/clubesocios', {
+		templateUrl : "view/sociosclubes.php",
+		controller  : "clubesSociosController"
+	})
+	.when('/melhorespercapitas', {
+		templateUrl : "view/percapita.php",
+		controller  : "melhorespercapitasController"
+	})
+	.when('/melhorarpercapitas', {
+		templateUrl : "view/percapita.php",
+		controller  : "melhorarpercapitasController"
+	})
+	.when('/maioresclubes', {
+		templateUrl : "view/tamanhoclubes.php",
+		controller  : "maioresclubesController"
+	})
+	.when('/menoresclubes', {
+		templateUrl : "view/tamanhoclubes.php",
+		controller  : "menoresclubesController"
+	})
+	.when('/atualizapopulacao', {
+		templateUrl : "view/atualizapopulacao.php",
+		controller  : "atualizapopulacaoController"
+	})
 
 	//$routeProvider
 	// .when('/', {
