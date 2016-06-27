@@ -43,7 +43,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr dir-paginate="c in clubes | orderBy: sortKey: reverse |itemsPerPage:10">
+				<tr dir-paginate="c in clubes | orderBy: sortKey: reverse |itemsPerPage:20">
 					<td>{{c.clube}}</td>
 					<td>{{c.distrito}}</td>
 					<td>{{c.cidade}}</td>

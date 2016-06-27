@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" cg-busy="{promise:null,templateUrl:js/angular/custom-template.html,message:'buscando dados',backdrop:true,delay:0,minDuration:0}">
 	<h2 style="background-color: #EEE9E9; border-bottom-style: solid; border-bottom-color: #483D8B; color: #0000FF">{{titulo}}</h2>
 	<div class="row">
 		<label for="inputDistrito" class="col-sm-1 control-label">Distrito:</label>
@@ -40,7 +40,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="p in percapitas | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:10">
+			<tr dir-paginate="p in percapitas | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:20">
 				<td>{{p.cidade}}</td>
 				<td style="text-align: right;">{{p.clubes}}</td>
 				<td style="text-align: right;">{{p.associados}}</td>

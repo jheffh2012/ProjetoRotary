@@ -40,8 +40,8 @@ rotary.factory("clubesService", function ($http) {
 
 	var _deleteClube = function (codigoClube) {
 		return $http({
-			method : "delete",
-			url    : "api/index.php/clube/",
+			method : "post",
+			url    : "api/index.php/clube/delete",
 			data   : codigoClube
 		});
 	};

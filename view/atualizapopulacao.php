@@ -56,7 +56,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr dir-paginate="c in cidades | filter: searchText | orderBy: sortKey: reverse | itemsPerPage:10">
+				<tr dir-paginate="c in cidades | filter: searchText | orderBy: sortKey: reverse | itemsPerPage:20">
 					<td>{{c.descricao}}</td>
 					<td>{{c.sigla}}</td>
 					<td>{{c.estado}}</td>

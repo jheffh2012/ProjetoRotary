@@ -43,7 +43,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr dir-paginate="e in estados | filter: searchText | orderBy: sortKey: reverse | itemsPerPage:10">
+				<tr dir-paginate="e in estados | filter: searchText | orderBy: sortKey: reverse | itemsPerPage:20">
 					<td>{{e.estado}}</td>
 					<td>{{e.sigla}}</td>
 				</tr>

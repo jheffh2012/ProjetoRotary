@@ -39,8 +39,8 @@ rotary.factory("distritosService", function ($http) {
 
 	var _deleteDistrito = function (codigoDistrito) {
 		return $http({
-			method : "delete",
-			url    : "api/index.php/distrito/",
+			method : "post",
+			url    : "api/index.php/distrito/delete",
 			data   : codigoDistrito
 		});
 	};

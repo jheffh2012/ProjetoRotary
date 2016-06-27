@@ -32,10 +32,19 @@ rotary.factory("relatorioService", function ($http) {
 		});
 	};
 
+	var _getCidadesSemRotary = function (distrito) {
+		return $http({
+			method : "post",
+			url    : "api/index.php/relatorios/cidadesemrotary",
+			data   : distrito
+		});
+	};
+
 	return {
 		getPercapita : _getPercapita,
 		getMelhorarPercapita : _getMelhorarPercapita,
 		getMaioresclubes : _getMaioresClubes,
-		getMenoresclubes : _getMenoresClubes
+		getMenoresclubes : _getMenoresClubes,
+		getCidadesSemRotary : _getCidadesSemRotary
 	};
 });

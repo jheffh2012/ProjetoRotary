@@ -1,5 +1,5 @@
 <?php
-	require_once "/../bd/bd.php";
+	require_once("/../bd/bd.php");
 	/**
 	* Classe País
 	*/

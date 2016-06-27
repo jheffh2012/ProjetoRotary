@@ -29,11 +29,14 @@ login.controller('loginController', function ($scope, usuarioService, $localStor
 	$scope.u = {};
 
 	$scope.logar = function () {
+		$localStorage.token = "";
 		usuarioService.login($scope.u).then(function (data) {
 			retorno = data.data;
 			if (retorno.logado) {
 				$localStorage.token = data.data.token;
-				window.location.href = "/";
+				window.location.href = "http://localhost/projetoRotary/index.php";
+			} else {
+				$scope.erroLogin = "Usuário e Senha informados inválidos!";
 			}
 		}, function (err) {
 			console.log(err.data);

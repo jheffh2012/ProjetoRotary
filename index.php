@@ -4,6 +4,8 @@
 	<title>Rotary - Controle de Clubes</title>
 	<meta charset="UTF-8">
 
+	<link rel="stylesheet" type="text/css" href="js/angular/angular-busy.min.css">
+
 	<script type="text/javascript" src="js/jquery/jquery-1.12.3.min.js"></script>
 	<!-- <link rel="stylesheet" type="text/css" href="js/jquery/jquery.datatables.min.css"> -->
 	<!-- <script type="text/javascript" src="js/jquery/jquery.datatables.min.js"></script> -->
@@ -15,9 +17,15 @@
 	<script type="text/javascript" src="js/angular/angular-route.min.js"></script>
 	<script type="text/javascript" src="js/angular/angular-scroll.min.js"></script>
 	<script type="text/javascript" src="js/angular/dirPagination.js"></script>
+	<script type="text/javascript" src="js/angular/ngStorage.min.js"></script>
+	<script type="text/javascript" src="js/angular/spin.min.js"></script>
+	<script type="text/javascript" src="js/angular/angular-spinner.min.js"></script>
+	<script type="text/javascript" src="js/angular/angular-loading-spinner.js"></script>
 
 	<script type="text/javascript" src="js/app.module.js"></script>
 	<script type="text/javascript" src="js/angular/angular-locale_pt-br.js"></script>
+	<!-- Interceptors -->
+	<script type="text/javascript" src="js/interceptors/autenticheader.js"></script>
 	<!-- Serviços -->
 	<script type="text/javascript" src="js/services/paises.js"></script>
 	<script type="text/javascript" src="js/services/estado.js"></script>
@@ -35,6 +43,7 @@
 	<script type="text/javascript" src="js/controllers/novodistrito.js"></script>
 	<script type="text/javascript" src="js/controllers/editadistrito.js"></script>
 	<script type="text/javascript" src="js/controllers/clube.js"></script>
+	<script type="text/javascript" src="js/controllers/principal.js"></script>
 	<script type="text/javascript" src="js/controllers/novoclube.js"></script>
 	<script type="text/javascript" src="js/controllers/editaclube.js"></script>
 	<script type="text/javascript" src="js/controllers/clubesocio.js"></script>
@@ -43,6 +52,11 @@
 	<script type="text/javascript" src="js/controllers/maioresclubes.js"></script>
 	<script type="text/javascript" src="js/controllers/menoresclubes.js"></script>
 	<script type="text/javascript" src="js/controllers/atualizapopulacao.js"></script>
+	<script type="text/javascript" src="js/controllers/usuario.js"></script>
+	<script type="text/javascript" src="js/controllers/novousuario.js"></script>
+	<script type="text/javascript" src="js/controllers/editausuario.js"></script>
+	<script type="text/javascript" src="js/controllers/logout.js"></script>
+	<script type="text/javascript" src="js/controllers/cidadesemrotary.js"></script>
 </head>
 <body ng-app="rotary">
 	<nav class="navbar navbar-default">
@@ -55,7 +69,8 @@
 					<li><a href="#/cidades">Cidades</a></li>
 					<li role="separator" class="divider"></li>
 					<li><a href="#/distritos">Distritos</a></li>
-					<li><a href="#/clubes">Clubes</a></li>		
+					<li><a href="#/clubes">Clubes</a></li>
+					<li><a href="#/usuarios">Usuários</a></li>		
 				</ul>
 			</li>
 			<li><a href="#">Home <span class="sr-only">(current)</span></a></li>
@@ -74,10 +89,12 @@
 				</ul>
 			</li>
 			
-			<li><a href="#">Cidades Sem Rotary</a></li>
+			<li><a href="#/semrotary">Cidades Sem Rotary</a></li>
+			<li><a href="#/logout">Sair</a></li>
 		</ul>
 	</nav>
 	<div class="row"></div>
+	<span us-spinner="{radius:30, width:8, length: 16}"></span>
 
 	<div class="container" ng-view>
 		

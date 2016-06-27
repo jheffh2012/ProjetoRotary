@@ -1,16 +1,29 @@
 <?php
-	require_once "/../bd/bd.php";
+	require_once("/../bd/bd.php");
 
 	class Clube {
-		public function getClubes () {
+		public function getClubes ($idusuario) {
 			$app = new App;
 			try {
-				$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades)";
+				$sqlUsuario = "SELECT admin FROM usuario WHERE idusuario = ". $idusuario;
+				
 				$app->connectbd();
-				$stm = $app->conexao->prepare($sql);
-				$stm->execute();
-				$lista = $stm->fetchAll(PDO::FETCH_ASSOC);
-				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+
+				$stmUsuario = $app->conexao->prepare($sqlUsuario);
+				$stmUsuario->execute();
+				$user = $stmUsuario->fetch(PDO::FETCH_OBJ);
+				if (isset($user)) {
+					if ($user->admin == 1) {
+						$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades)";
+					} else {
+						$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN usuario_distritos ud ON (d.iddistritos = ud.distritos_iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades) WHERE ud.usuario_idusuario = ". $idusuario;
+					}
+					$app->connectbd();
+					$stm = $app->conexao->prepare($sql);
+					$stm->execute();
+					$lista = $stm->fetchAll(PDO::FETCH_ASSOC);
+					return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+				}
 			} catch (PDOException $e) {
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 			}

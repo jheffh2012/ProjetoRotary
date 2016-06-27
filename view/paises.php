@@ -20,7 +20,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="p in paises | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:10">
+			<tr dir-paginate="p in paises | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:20">
 				<td>{{p.nome}}</td>
 				<td>
 					<a ng-show="{{p.STATUS == 0}}" class="btn btn-primary pull-center form-control">Ativar</a>

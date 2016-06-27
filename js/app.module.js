@@ -1,9 +1,13 @@
-var rotary = angular.module('rotary', ["ngRoute", "duScroll", "ui.bootstrap", "angularUtils.directives.dirPagination"]).value('duScrollDuration', 2000);
+var rotary = angular.module('rotary', ["ngRoute", "duScroll", "ui.bootstrap", "angularUtils.directives.dirPagination", "ngStorage", "ngLoadingSpinner"]).value('duScrollDuration', 2000);
+
+rotary.config(function($httpProvider) {
+	$httpProvider.interceptors.push("AutenticHeaderInterceptor");
+});
 
 rotary.config(function ($routeProvider, $locationProvider) {
 	$routeProvider
 	.when('/', {
-		templateUrl : 'view/principal',
+		templateUrl : 'view/principal.php',
 		controller : 'principalController'
 	})
 	.when('/paises', {
@@ -66,34 +70,26 @@ rotary.config(function ($routeProvider, $locationProvider) {
 		templateUrl : "view/atualizapopulacao.php",
 		controller  : "atualizapopulacaoController"
 	})
-
-	//$routeProvider
-	// .when('/', {
-	// 	templateUrl : 'view/principal.php'
-	// })
-	// .when('/sobre', {
-	// 	templateUrl : 'view/sobre.php'
-	// })
-	// .when('/atividadesrealizadas', {
-	// 	templateUrl : 'view/realizadas.php'
-	// })
-	// .when('/parceiros', {
-	// 	templateUrl : 'view/parceiros.php'
-	// })
-	// .when('/contato', {
-	// 	templateUrl : 'view/contato.php'
-	// })
-	// .when('/emconstrucao', {
-	// 	templateUrl : 'view/em_construcao.php'
-	// })
-	// .when('/login', {
-	// 	templateUrl : 'login.php',
-	// 	controller  : 'loginController'
-	// })
-	// .when('/bibliotecavirtual', {
-	// 	templateUrl : 'view/bibliotecavirtual.php',
-	// 	controller  : 'artigoController'
-	// })
+	.when('/usuarios', {
+		templateUrl : "view/usuarios.php",
+		controller : "usuariosController"
+	})
+	.when('/novousuario', {
+		templateUrl : "view/dadosusuario.php",
+		controller  : "novousuarioController"
+	})
+	.when('/editausuario/:idusuario', {
+		templateUrl : "view/dadosusuario.php",
+		controller  : "editausuarioController"
+	})
+	.when('/logout', {
+		templateUrl: "view/principal.php",
+		controller : "logoutController"
+	})
+	.when('/semrotary', {
+		templateUrl : "view/cidadesemrotary.php",
+		controller : "cidadesemrotaryController"
+	})
 });
 rotary.config(function (paginationTemplateProvider) {
 	paginationTemplateProvider.setPath('js/angular/dirPagination.tpl.html');

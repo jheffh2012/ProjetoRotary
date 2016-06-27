@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="login">
 <head>
 	<title>Login para Análise Rotary</title>
 	<meta charset="UTF-8">
@@ -12,35 +12,22 @@
 	<script type="text/javascript" src="js/angular/ngStorage.min.js"></script>
 	<script type="text/javascript" src="js/login.module.js"></script>
 </head>
-<body ng-app="login">
-	<form class="form-group" ng-controller="loginController">
-		<div class="row">
-			<label for="inputUsuario" class="col-sm-2">Usuário</label>
-			<div class="col-sm-10">
-				<input type="text" ng-model="u.usuario" class="form-control" id="inputUsuario" placeholder="Digite o Usuário"></input>
+<body ng-controller="loginController">
+	<div class="container" style="">
+		<form class="form-signin">
+			<h2 class="form-signin-heading">Login</h2>
+			<label for="inputEmail" class="sr-only">Usuário</label>
+			<input type="text" id="inputEmail" ng-model="u.usuario" class="form-control" placeholder="Usuário" required autofocus>
+			<div style="height: 10px">
+				
 			</div>
-		</div>
-		<div style="height: 10px;">
-			
-		</div>
-		<div class="row">
-			<label for="inputSenha" class="col-sm-2">Senha:</label>
-			<div class="col-sm-10">
-				<input type="password" ng-model="u.senha" class="form-control" id="inputSenha" placeholder="Digite a senha"></input>
+			<label for="inputPassword" class="sr-only">Senha</label>
+			<input type="password" id="inputPassword" ng-model="u.senha" class="form-control" placeholder="Senha" required>
+			<button class="btn btn-lg btn-primary btn-block" ng-click="logar()" type="submit">Entrar</button>
+			<div ng-if="erroLogin">
+				<label class="form-control" style="color: #FF0000">{{erroLogin}}</label>
 			</div>
-		</div>
-		<div style="height: 10px;">
-			
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<button class="form-control btn btn-primary" ng-click="logar()">Login</button>
-			</div>
-			<div class="col-sm-6">
-				<button class="form-control btn btn-danger">Cancelar</button>
-			</div>
-		</div>
-
-	</form>
+		</form>
+	</div>
 </body>
 </html>

@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="col-sm-2">
-			<button class="btn btn-primary form-control" ng-click="getClubes(filtroDistrito.iddistritos)">Buscar Clubes</button>
+			<button class="btn btn-primary form-control" ng-click="getCidadesSemRotary(filtroDistrito.iddistritos)">Buscar Cidades</button>
 		</div>
 	</div>
 	<div class="row" style="height: 10px">
@@ -19,18 +19,22 @@
 	<table class="table table-bordered">
 		<thead>
 			<tr>
-				<th class="col-xs-11" ng-click="sort('descricao')">Clubes
+				<th class="col-xs-7" ng-click="sort('descricao')">Cidades
 				<span class="glyphicon sort-icon" ng-show="sortKey=='descricao'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
 				</th>
-				<th class="col-xs-1" ng-click="sort('socios')">Sócios
-				<span class="glyphicon sort-icon" ng-show="sortKey=='socios'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+				<th class="col-xs-3" ng-click="sort('sigla')">Estado
+				<span class="glyphicon sort-icon" ng-show="sortKey=='sigla'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+				</th>
+				<th class="col-xs-2" ng-click="sort('populacao')">População
+				<span class="glyphicon sort-icon" ng-show="sortKey=='populacao'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr dir-paginate="c in clubes | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:20">
-				<td style="text-align: left;">{{c.idclubes}} - {{c.descricao}}</td>
-				<td style="text-align: right;">{{c.socios}}</td>
+			<tr dir-paginate="c in cidades | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:20">
+				<td style="text-align: left;">{{c.descricao}}</td>
+				<td>{{c.estado}}-{{c.sigla}}</td>
+				<td style="text-align: right;">{{c.populacao}}</td>
 			</tr>
 		</tbody>
 	</table>

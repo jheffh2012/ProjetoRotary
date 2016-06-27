@@ -3,13 +3,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use \Firebase\JWT\JWT;
 
-require_once 'vendor/autoload.php';
-require_once 'class/cidade.php';
-require_once 'class/estado.php';
-require_once 'class/pais.php';
-require_once 'class/distrito.php';
-require_once 'class/clube.php';
-require_once 'class/usuario.php';
+require_once("vendor/autoload.php");
+require_once("class/cidade.php");
+require_once("class/estado.php");
+require_once("class/pais.php");
+require_once("class/distrito.php");
+require_once("class/clube.php");
+require_once("class/usuario.php");
 
 header("Content-Type: text/html; charset=utf-8",true);
 
@@ -23,6 +23,27 @@ $app->before(function(Request $request) {
         $request->request->replace(is_array($data) ? $data : []);
     }
 });
+
+$app->after(function (Request $request, Response $response) {
+	if (!strpos($request->getUri(), 'login')) {
+		$token = $request->headers->get('tokenRotary');
+		$user = new Usuario;
+		try {
+			$retorno = $user->getUser($token);
+			if ($retorno->retorno) {
+				$novotoken = $user->newToken($token);
+				if (isset($novotoken)) {
+					$response->headers->set('tokenRotary', $novotoken);
+				}
+			} else {
+				return new Response($retorno->mensagem, 401);
+			}
+		} catch (Exception $e) {
+			
+		}
+	}
+	
+ });
 
 $cidade   = $app['controllers_factory'];
 $estado   = $app['controllers_factory'];
@@ -38,7 +59,7 @@ $pais->get('/', function () {
 		$lista = $p->getPaises();
 		return $lista;
 	} catch (Exception $e) {
-		return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+		return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 	}
 });
 
@@ -48,7 +69,7 @@ $pais->get('/ativos', function () {
 		$lista = $p->getPaisesAtivos();
 		return $lista;
 	} catch (Exception $e) {
-		return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+		return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 	}
 });
 
@@ -57,7 +78,7 @@ $estado->get('/', function () {
 	try {
 		return $lista = $e->getEstados();
 	} catch (Exception $e) {
-		return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+		return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 	}
 });
 
@@ -70,7 +91,7 @@ $estado->post('/', function (Request $request) {
 			$lista = $e->getEstadosPais($idpais);
 			return $lista;
 		} catch (Exception $e) {
-			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 		}
 	}
 });
@@ -92,7 +113,7 @@ $cidade->post('/', function (Request $request) {
 			$lista = $c->getCidadesEstado($uf);
 			return $lista;
 		} catch (Exception $e) {
-			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 		}
 	}
 });
@@ -103,7 +124,7 @@ $cidade->get('/{idcidade}', function ($idcidade) {
 		$lista = $c->getCidade($idcidade);
 		return $lista;
 	} catch (Exception $e) {
-		return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+		return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 	}
 });
 
@@ -115,7 +136,7 @@ $cidade->put('/', function (Request $request) {
 			$lista = $c->insertOrUpdate($dados);
 			return $lista;
 		} catch (Exception $e) {
-			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 		}
 	}
 });
@@ -128,18 +149,29 @@ $cidade->put('/atualizapopulacao', function (Request $request) {
 			$lista = $c->atualizaPopulacao($dados);
 			return $lista;
 		} catch (Exception $e) {
-			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 		}
 	}
 });
 
-$distrito->get('/', function () {
-	$d = new Distrito;
-	try {
-		$lista = $d->getDistritos();
-		return $lista;
-	} catch (Exception $e) {
-		return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+$distrito->get('/', function (Request $request) {
+	$token = $request->headers->get('tokenRotary');
+	if ($token) {
+		$u = new Usuario;
+		try {
+			$userId = $u->getUserId($token);
+		} catch (Exception $e) {
+			return json_encode("Erro ao buscar usuario! Erro:" . $e->getMessage(), JSON_UNESCAPED_UNICODE);
+		}
+		if ($userId >= 0) {
+			$d = new Distrito;
+			try {
+				$lista = $d->getDistritos($userId);
+				return $lista;
+			} catch (Exception $e) {
+				return json_encode("Erro ao buscar distritos! Erro:" . $e->getMessage(), JSON_UNESCAPED_UNICODE);
+			}
+		}
 	}
 });
 
@@ -149,7 +181,7 @@ $distrito->get('/{id}', function ($id) {
 		$lista = $d->getDistrito($id);
 		return $lista;
 	} catch (Exception $e) {
-		return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+		return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 	}
 });
 
@@ -160,7 +192,7 @@ $distrito->get('/{id}/cidades', function ($id) {
 			$lista = $d->getCidadesDistrito($id);
 			return $lista;
 		} catch (Exception $e) {
-			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 		}
 	}
 });
@@ -173,7 +205,7 @@ $distrito->put('/', function (Request $request){
 			$lista = $d->insertOrUpdate($dados);
 			return $lista;
 		} catch (Exception $e) {
-			return json_encode(json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 		}
 	}
 });
@@ -191,26 +223,50 @@ $distrito->put('/{id}/cidades', function ($id) {
 	}
 });
 
-$distrito->delete('/', function (Request $request) {
+$distrito->post('/delete', function (Request $request) {
 	$dados = json_decode($request->getContent());
-	if (isset($dados)) {
-		$d = new Distrito;
+	$token = $request->headers->get('tokenRotary');
+	if (isset($token)) {
+		$user = new Usuario;
 		try {
-			$lista = $d->deleteDistrito($dados);
-			return $lista;
+			$retorno = $user->getUser($token);
+			if ($retorno->retorno) {
+				if (isset($dados)) {
+					$d = new Distrito;
+					try {
+						$lista = $d->deleteDistrito($dados);
+						return $lista;
+					} catch (Exception $e) {
+						return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+					}
+				}
+			} else {
+				return new Response($retorno->mensagem, 401);
+			}
 		} catch (Exception $e) {
-			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+			
 		}
 	}
 });
 
-$clube->get('/', function () {
-	$c = new Clube;
-	try {
-		$lista = $c->getClubes();
-		return $lista;
-	} catch (Exception $e) {
-		return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+$clube->get('/', function (Request $request) {
+	$token = $request->headers->get('tokenRotary');
+	if (isset($token)) {
+		$u = new Usuario;
+		try {
+			$userId = $u->getUserId($token);
+		} catch (Exception $e) {
+			return json_encode("Erro ao buscar usuario! Erro:" . $e->getMessage(), JSON_UNESCAPED_UNICODE);
+		}
+		if (isset($userId)) {
+			$c = new Clube;
+			try {
+				$lista = $c->getClubes($userId);
+				return $lista;
+			} catch (Exception $e) {
+				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+			}
+		}
 	}
 });
 
@@ -263,15 +319,28 @@ $clube->put('/', function (Request $request) {
 	}
 });
 
-$clube->delete('/', function (Request $request) {
+$clube->post('/delete', function (Request $request) {
 	$dados = json_decode($request->getContent());
-	if (isset($dados)) {
-		$c = new Clube;
+	$token = $request->headers->get('tokenRotary');
+	if (isset($token)) {
+		$user = new Usuario;
 		try {
-			$lista = $c->deleteClube($dados);
-			return $lista;
+			$retorno = $user->getUser($token);
+			if ($retorno->retorno) {
+				if (isset($dados)) {
+					$c = new Clube;
+					try {
+						$lista = $c->deleteClube($dados);
+						return $lista;
+					} catch (Exception $e) {
+						return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+					}
+				}
+			} else {
+				return new Response($retorno->mensagem, 401);
+			}
 		} catch (Exception $e) {
-			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+			
 		}
 	}
 });
@@ -289,6 +358,20 @@ $clube->post('/socios', function (Request $request) {
 	}
 });
 
+$usuario->get('/', function (Request $request) {
+	$token = $request->headers->get("tokenRotary");
+	if (isset($token)) {
+		$u = new Usuario;
+		try {
+			$userId = $u->getUserId($token);
+			$dados = $u->getUsuarios($userId);
+			return $dados;
+		} catch (Exception $e) {
+			
+		}
+	}
+});
+
 $usuario->post('/userexists', function (Request $request) {
 	$username = $request->getContent();
 	if (isset($username)) {
@@ -299,6 +382,8 @@ $usuario->post('/userexists', function (Request $request) {
 		} catch (Exception $e) {
 			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 		}
+	} else {
+		return json_encode("Usuario não informado!");
 	}
 });
 
@@ -315,8 +400,52 @@ $usuario->post('/login', function (Request $request) {
 	}
 });
 
-$usuario->get('/', function (Request $request) {
-	$token = json_decode($request->getHeader());
+$usuario->post('/token', function (Request $request) {
+	$token = $request->headers->get('tokenRotary');
+	// $token = json_decode($request->headers->get("token"));
+	$user = new Usuario;
+	try {
+		$retorno = $user->getUser($token);
+		if ($retorno->retorno) {
+			return new Response($retorno->mensagem, 200);
+		} else {
+			return new Response($retorno->mensagem, 401);
+		}
+		return $retorno;
+	} catch (Exception $e) {
+		return json_encode("Erro ao buscar dados do Token! Erro: ". $e->getMessage());
+	}
+});
+
+$usuario->post('/insert', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	$u = new Usuario;
+	try {
+		$retorno = $u->insertOrUpdate($dados);
+		return json_encode($retorno);
+	} catch (Exception $e) {
+		return json_encode("Erro ao inserir dados do usuario! Erro: " . $e->getMessage());
+	}
+});
+
+$usuario->get('/{userId}', function ($userId) {
+	$u = new Usuario;
+	try {
+		$retorno = $u->getDadosUser($userId);
+		return $retorno;
+	} catch (Exception $e) {
+		return json_encode("Erro ao inserir dados do usuario! Erro: " . $e->getMessage());
+	}
+});
+
+$usuario->get('/{userId}/distritos', function ($userId) {
+	$u = new Usuario;
+	try {
+		$retorno = $u->getDistritosUser($userId);
+		return $retorno;
+	} catch (Exception $e) {
+		return json_encode("Erro ao inserir dados do usuario! Erro: " . $e->getMessage());
+	}
 });
 
 $relatorios->post('/percapita', function (Request $request) {
@@ -368,6 +497,19 @@ $relatorios->post('/menoresclubes', function (Request $request) {
 		$d = new Distrito;
 		try {
 			$lista = $d->getTamanhoClubes($dados, 1);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(). JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
+$relatorios->post('/cidadesemrotary', function (Request $request) {
+	$dados = $request->getContent();
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->getCidadesSemRotaryDistrito($dados);
 			return $lista;
 		} catch (Exception $e) {
 			return json_encode($e->getMessage(). JSON_UNESCAPED_UNICODE);

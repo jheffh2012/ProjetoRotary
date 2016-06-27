@@ -1,5 +1,5 @@
 <?php
-	require_once "/../bd/bd.php";
+	require_once("/../bd/bd.php");
 
 	/**
 	* 
@@ -24,15 +24,29 @@
 	}
 
 	class Distrito {
-		public function getDistritos () {
+		public function getDistritos ($idusuario) {
 			$app = new App;
 			try {
-				$sql = "SELECT * FROM distritos";
+				$sqlUsuario = "SELECT admin FROM usuario WHERE idusuario = ". $idusuario;
+				
 				$app->connectbd();
-				$stm = $app->conexao->prepare($sql);
-				$stm->execute();
-				$dados = $stm->fetchAll(PDO::FETCH_ASSOC);
-				return json_encode($dados, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+
+				$stmUsuario = $app->conexao->prepare($sqlUsuario);
+				$stmUsuario->execute();
+				$user = $stmUsuario->fetch(PDO::FETCH_OBJ);
+				if (isset($user)) {
+					if ($user->admin == 1) {
+						$sql = "SELECT * FROM distritos";
+					} else {
+						$sql = "SELECT d.* FROM usuario u INNER JOIN usuario_distritos ud ON (u.idusuario = ud.usuario_idusuario) INNER JOIN distritos d ON (ud.distritos_iddistritos = d.iddistritos) WHERE u.idusuario = ". $idusuario;
+					}
+					$stm = $app->conexao->prepare($sql);
+					$stm->execute();
+					$dados = $stm->fetchAll(PDO::FETCH_ASSOC);
+					return json_encode($dados, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+				} else {
+					return json_encode("Usuário não Encontrado", JSON_UNESCAPED_UNICODE);
+				}
 			} catch (PDOException $e) {
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
 			}
@@ -158,6 +172,22 @@
 				$app = new App;
 				try {
 					$sql = "SELECT c.idcidades, c.descricao, c.populacao, e.sigla, e.estado FROM distrito_cidades dc INNER JOIN cidades c ON dc.codigo_cidades = c.idcidades INNER JOIN estados e ON (c.estados_idestados = e.idestados) WHERE codigo_distrito = ".$idDistrito;
+					$app->connectbd();
+					$stm = $app->conexao->prepare($sql);
+					$stm->execute();
+					$dados = $stm->fetchAll(PDO::FETCH_ASSOC);
+					return json_encode($dados, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+				} catch (PDOException $e) {
+					return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+				}
+			}
+		}
+
+		public function getCidadesSemRotaryDistrito ($idDistrito) {
+			if (isset($idDistrito)) {
+				$app = new App;
+				try {
+					$sql = "SELECT c.idcidades, c.descricao, c.populacao, e.sigla, e.estado FROM distrito_cidades dc INNER JOIN cidades c ON dc.codigo_cidades = c.idcidades INNER JOIN estados e ON (c.estados_idestados = e.idestados) WHERE codigo_distrito = ".$idDistrito . "  AND dc.codigo_cidades NOT IN (SELECT cl.codigo_cidade FROM clubes cl WHERE cl.distritos_iddistritos = dc.codigo_distrito)";
 					$app->connectbd();
 					$stm = $app->conexao->prepare($sql);
 					$stm->execute();

@@ -29,7 +29,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr dir-paginate="d in distritos | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:10">
+					<tr dir-paginate="d in distritos | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:20">
 						<td>{{d.descricao}}</td>
 						<td>
 							<a href="#/editadistrito/{{d.iddistritos}}" class="btn btn-primary pull-center form-control">Alterar</a>
