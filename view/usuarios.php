@@ -1,5 +1,6 @@
 <form class="form-group">
 	<div class="table-responsive">
+		<h2 style="background-color: #EEE9E9; border-bottom-style: solid; border-bottom-color: #483D8B; color: #0000FF">{{titulo}}</h2>
 		<div class="row">			
 			<div>
 				<label for="inputPesquisar" class="col-sm-1 control-label">Filtrar:</label>

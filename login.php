@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="js/angular/ngStorage.min.js"></script>
 	<script type="text/javascript" src="js/login.module.js"></script>
 </head>
-<body ng-controller="loginController">
+<body ng-controller="loginController" background-image="imagens/dqa_logo.jpg">
 	<div class="container" style="">
 		<form class="form-signin">
 			<h2 class="form-signin-heading">Login</h2>

@@ -1,4 +1,4 @@
-var rotary = angular.module('rotary', ["ngRoute", "duScroll", "ui.bootstrap", "angularUtils.directives.dirPagination", "ngStorage", "ngLoadingSpinner"]).value('duScrollDuration', 2000);
+var rotary = angular.module('rotary', ["ngRoute", "duScroll", "ui.bootstrap", "angularUtils.directives.dirPagination", "ngStorage", "ngLoadingSpinner", "angular.morris-chart"]).value('duScrollDuration', 2000);
 
 rotary.config(function($httpProvider) {
 	$httpProvider.interceptors.push("AutenticHeaderInterceptor");

@@ -3,7 +3,7 @@
 		<div class="row">
 			<label for="inputDistrito" class="col-sm-1 control-label">Distrito:</label>
 			<div class="col-sm-2">
-				<input type="text" ng-model="filtroDistrito" placeholder="Selecione o Distrito" uib-typeahead="distrito as distrito.descricao for distrito in distritos | filter:{descricao:$viewValue}" typeahead-loading="loadingDistritos" typeahead-no-results="noResultsDistritos" class="form-control" id="inputDistrito">
+				<input type="text" ng-model="filtroDistrito" placeholder="Selecione o Distrito" uib-typeahead="distrito as distrito.descricao for distrito in distritos | filter:{descricao:$viewValue}" typeahead-loading="loadingDistritos" typeahead-no-results="noResultsDistritos" class="form-control" id="inputDistrito" typeahead-min-length="0">
 				<i ng-show="loadingDistritos" class="glyphicon-refresh"></i>
 				<div ng-show="noResultsDistritos">
 					<i class="glyphicon glyphicon-remove">Não Existem dados</i>
@@ -62,7 +62,7 @@
 	<div style="height: 10px;">
 		<div class="row">
 			<div class="col-sm-2">
-				<button ng-disabled="(!dt)" class="btn btn-success form-control" ng-click="salvarClubesSocios()">Salvar</button>
+				<button ng-disabled="(!dt) || !filtroDistrito.descricao" class="btn btn-success form-control" ng-click="salvarClubesSocios()">Salvar</button>
 			</div>
 			<div class="col-sm-2">
 				<a href="#/clubes" class="btn btn-default form-control">Cancelar</a>

@@ -1,6 +1,7 @@
 rotary.controller('atualizapopulacaoController', function ($scope, $location, cidadesService, distritosService) {
 	$scope.cidades = [];
 	$scope.distritos = [];
+	$scope.titulo = "Atualizar População das Cidades";
 
 	$scope.getDistritos = function () {
 		distritosService.getDistritos().then(function (data) {

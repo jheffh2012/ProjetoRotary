@@ -280,6 +280,29 @@ $clube->get('/{id}', function ($id) {
 	}
 });
 
+$clube->get('/{id}/socios', function ($id) {
+	$c = new Clube;
+	try {
+		$lista = $c->getSociosClube($id);
+		return $lista;
+	} catch (Exception $e) {
+		return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+	}
+});
+
+$clube->post('/deletesocios', function (Request $request) {
+	$clubesocios = $request->getContent();
+	if ($clubesocios) {
+		$c = new Clube;
+		try {
+			$lista = $c->deleteSociosClube($clubesocios);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
 $clube->post('/distrito', function (Request $request) {
 	$dados = json_decode($request->getContent());
 	if (isset($dados)) {

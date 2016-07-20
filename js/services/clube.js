@@ -14,6 +14,21 @@ rotary.factory("clubesService", function ($http) {
 		})
 	};
 
+	var _getSociosClube = function (codigoclube) {
+		return $http({
+			method : "get",
+			url    : "api/index.php/clube/" + codigoclube + "/socios" 
+		})
+	};
+
+	var _deleteSociosClube = function (codigoclubesocios) {
+		return $http({
+			method : "post",
+			url    : "api/index.php/clube/deletesocios",
+			data   : codigoclubesocios
+		});
+	};
+
 	var _getClubesDistrito = function (codigoDistrito) {
 		return $http({
 			method : "post",
@@ -57,10 +72,12 @@ rotary.factory("clubesService", function ($http) {
 	return {
 		getClubes : _getClubes,
 		getClube : _getClube,
+		getSociosClube : _getSociosClube,
 		getClubesDistrito : _getClubesDistrito,
 		getClubesCidade : _getClubesCidade,
 		insertOrUpdate : _insertOrUpdate,
 		insertOrUpdateClubesSocios : _insertOrUpdateClubesSocios,
-		deleteClube : _deleteClube
+		deleteClube : _deleteClube,
+		deleteSociosClube : _deleteSociosClube
 	};
 });

@@ -4,6 +4,7 @@ rotary.controller('editadistritoController', function ($scope, $routeParams, cid
 	$scope.paises = [];
 	$scope.estados = [];
 	$scope.cidades = [];
+	$scope.titulo = "Editando Distrito";
 
 	$scope.getPaisesAtivos = function () {
 		paisesService.getPaisesAtivos().then(function (data) {
@@ -32,6 +33,14 @@ rotary.controller('editadistritoController', function ($scope, $routeParams, cid
 		}, function (err) {
 			$scope.erro = err.data;
 		});
+	};
+
+	$scope.onSelectEstados = function (item, model, label, event) {
+		$scope.getEstados(item.id);
+	};
+
+	$scope.onSelectCidades = function (item, model, label, event) {
+		$scope.getCidades(item.idestados);
 	};
 
 	$scope.incluirCidade = function (idCidade) {
@@ -77,7 +86,7 @@ rotary.controller('editadistritoController', function ($scope, $routeParams, cid
 		distritosService.insertOrUpdate($scope.distrito).then(function (data) {
 			$scope.retorno = data.data;
 			if ($scope.retorno.retorno) {
-				window.location = "http://localhost/projetoRotary/index.php#/distritos";
+				window.location.href = "#/distritos";
 			} else {
 				console.log($scope.retorno.mensagem);
 			}

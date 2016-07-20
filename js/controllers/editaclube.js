@@ -2,6 +2,8 @@ rotary.controller('editaclubeController', function ($scope, $routeParams, clubes
 	$scope.clube = {};
 	$scope.distritos = [];
 	$scope.cidades = [];
+	$scope.titulo = "Editando Clube";
+	$scope.sociosclube = [];
 
 	$scope.getDistritos = function () {
 		distritosService.getDistritos().then(function (data) {
@@ -10,6 +12,27 @@ rotary.controller('editaclubeController', function ($scope, $routeParams, clubes
 			}
 		}, function (err) {
 			$scope.erro = err.data;
+		});
+	};
+
+	$scope.getSociosClube = function (clube) {
+		clubesService.getSociosClube(clube).then(function (data) {
+			if (data.data.length > 0) {
+				$scope.sociosclube = data.data;
+			}
+		}, function (err) {
+			console.log(err.data);
+		});
+	};
+	$scope.deleteSociosClube = function (clube) {
+		clubesService.deleteSociosClube(clube).then(function (data) {
+			if (data.data.retorno) {
+				$scope.getSociosClube($scope.clube.idclubes);
+			} else {
+				console.log(data.data.mensagem);
+			}
+		}, function (err) {
+			console.log(err.data);
 		});
 	};
 
@@ -27,7 +50,7 @@ rotary.controller('editaclubeController', function ($scope, $routeParams, clubes
 		clubesService.insertOrUpdate($scope.clube).then(function (data) {
 			$scope.retorno = data.data;
 			if ($scope.retorno.retorno) {
-				window.location = "http://localhost/projetoRotary/index.php#/clubes";
+				window.location.href = "#/clubes";
 			} else {
 				console.log($scope.retorno.mensagem);
 			}
@@ -59,6 +82,21 @@ rotary.controller('editaclubeController', function ($scope, $routeParams, clubes
 			console.log(err.data);
 		})
 	};
+
+	$scope.onSelect = function (item, model, label, event) {
+		$scope.getCidadesDistrito(item.iddistritos);
+	};
+
+	$scope.onSelectClubesCidades = function (item, model, label, event) {
+		console.log(item);
+		clubesService.getClubesCidade(item.idcidades).then(function (data) {
+			$scope.clubescidade = data.data;
+		}, function (err) {
+			console.log(err);
+		});
+	};
+
 	$scope.getDistritos();
 	$scope.getClube($routeParams.idclube);
+	$scope.getSociosClube($routeParams.idclube);
 })

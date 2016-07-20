@@ -1,4 +1,5 @@
 <form class="form-group">
+	<h2 style="background-color: #EEE9E9; border-bottom-style: solid; border-bottom-color: #483D8B; color: #0000FF">{{titulo}}</h2>
 	<div class="row">
 		<label for="inputNome" class="col-sm-1 control-label">Nome:</label>
 		<div class="col-sm-5">

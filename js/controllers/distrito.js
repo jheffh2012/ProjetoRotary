@@ -1,5 +1,6 @@
 rotary.controller('distritosController', function ($scope, distritosService) {
 	$scope.distritos = [];
+	$scope.titulo = "Cadastro de Distritos";
 
 	$scope.getDistritos = function () {
 		distritosService.getDistritos().then(function (data) {

@@ -1,5 +1,6 @@
 rotary.controller('usuariosController', function ($scope, usuarioService, $location) {
 	$scope.usuarios = [];
+	$scope.titulo = "Cadastro de Usuários";
 
 	$scope.getUsuarios = function () {
 		usuarioService.getUsers().then(function (data) {

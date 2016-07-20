@@ -43,6 +43,37 @@
 			}
 		}
 
+		public function getSociosClube ($idClube) {
+			$app = new App;
+			try {
+				$sql = "SELECT * FROM clubes_socios WHERE clubes_idclubes = ". $idClube . " ORDER BY data";
+				$app->connectbd();
+				$stm = $app->conexao->prepare($sql);
+				$stm->execute();
+				$lista = $stm->fetchAll(PDO::FETCH_OBJ);
+				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+			} catch (PDOException $e) {
+				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+			}
+		}
+
+		public function deleteSociosClube ($idclubesocios) {
+			$app = new App;
+			$retorno = new Retorno;
+			try {
+				$sql = "DELETE FROM clubes_socios WHERE id = ". $idclubesocios;
+				$app->connectbd();
+				$stm = $app->conexao->prepare($sql);
+				$stm->execute();
+				$retorno->retorno = true;
+				return json_encode($retorno, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+			} catch (PDOException $e) {
+				$retorno->retorno = false;
+				$retorno->mensagem = $e->getMessage();
+				return json_encode($retorno, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+			}
+		}
+
 		public function insertClubesSocios ($data, $clubes) {
 			$app = new App;
 			$retorno = new Retorno;

@@ -1,5 +1,6 @@
 <form class="form-group">
 	<div class="container">
+	<h2 style="background-color: #EEE9E9; border-bottom-style: solid; border-bottom-color: #483D8B; color: #0000FF">{{titulo}}</h2>
 		<!-- <div class="row">
 			<div class="col-xs-10">
 				<input type="text" ng-model="searchText" placeholder="Digite o Filtro de Pesquisa" class="form-control"></input>
@@ -11,7 +12,7 @@
 		<div class="row">			
 			<label for="inputPais" class="col-sm-1 control-label">Pais:</label>
 			<div class="col-sm-3">
-				<input type="text" ng-model="filtroPaises" placeholder="Selecione o País" uib-typeahead="pais as pais.nome for pais in paises | filter:{nome:$viewValue}" typeahead-loading="loadingPaises" typeahead-no-results="noResultsPais" class="form-control" id="inputPais">
+				<input type="text" ng-model="filtroPaises" placeholder="Selecione o País" uib-typeahead="pais as pais.nome for pais in paises | filter:{nome:$viewValue}" typeahead-loading="loadingPaises" typeahead-no-results="noResultsPais" class="form-control" id="inputPais" typeahead-min-length="0" typeahead-on-select="onSelect($item, $model, $label, $event)">
 				<i ng-show="loadingPaises" class="glyphicon-refresh"></i>
 				<div ng-show="noResultsPais">
 					<i class="glyphicon glyphicon-remove">Não Existem dados</i>
@@ -19,7 +20,7 @@
 			</div>
 			<label for="inputEstado" class="col-sm-1 control-label">Estado:</label>
 			<div class="col-sm-2">
-				<input type="text" ng-model="filtroEstados" placeholder="Selecione o Estado" uib-typeahead="est as est.estado for est in estados | filter:{estado:$viewValue}" typeahead-loading="loadingEstados" typeahead-no-results="noResults" class="form-control" id="inputEstado" ng-focus="carregarEstados(filtroPaises.id)">
+				<input type="text" ng-model="filtroEstados" placeholder="Selecione o Estado" uib-typeahead="est as est.estado for est in estados | filter:{estado:$viewValue}" typeahead-loading="loadingEstados" typeahead-no-results="noResults" class="form-control" id="inputEstado" typeahead-min-length="0">
 				<i ng-show="loadingEstados" class="glyphicon-refresh"></i>
 				<div ng-show="noResults">
 					<i class="glyphicon glyphicon-remove">Não Existem dados</i>

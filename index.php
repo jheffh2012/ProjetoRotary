@@ -21,6 +21,9 @@
 	<script type="text/javascript" src="js/angular/spin.min.js"></script>
 	<script type="text/javascript" src="js/angular/angular-spinner.min.js"></script>
 	<script type="text/javascript" src="js/angular/angular-loading-spinner.js"></script>
+	<script type="text/javascript" src="js/angular/raphael-min.js"></script>
+	<script type="text/javascript" src="js/angular/morris.min.js"></script>
+	<script type="text/javascript" src="js/angular/angular-morris-chart.min.js"></script>
 
 	<script type="text/javascript" src="js/app.module.js"></script>
 	<script type="text/javascript" src="js/angular/angular-locale_pt-br.js"></script>
@@ -64,8 +67,8 @@
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastros <span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="#/paises">Países</a></li>
-					<li><a href="#/estados">Estados</a></li>
+					<!-- <li><a href="#/paises">Países</a></li>
+					<li><a href="#/estados">Estados</a></li> -->
 					<li><a href="#/cidades">Cidades</a></li>
 					<li role="separator" class="divider"></li>
 					<li><a href="#/distritos">Distritos</a></li>

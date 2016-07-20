@@ -2,6 +2,7 @@ rotary.controller('editausuarioController', function ($scope, distritosService, 
 	$scope.selecionadistritos = [];
 	$scope.usuario = {};
 	$scope.usuario.distritos = [];
+	$scope.titulo = "Editando Usuário";
 
 	$scope.getDistritos = function () {
 		distritosService.getDistritos().then(function (data) {

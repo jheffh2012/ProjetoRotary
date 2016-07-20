@@ -2,6 +2,7 @@ rotary.controller('cidadesController', function ($scope, cidadesService, estados
 	$scope.cidades = [];
 	$scope.paises = [];
 	$scope.estados = [];
+	$scope.titulo = "Cadastro de Cidades";
 
 	$scope.getCidades = function (codigoestado) {
 		cidadesService.getCidadesEstado(codigoestado).then(function (data) {
@@ -40,6 +41,10 @@ rotary.controller('cidadesController', function ($scope, cidadesService, estados
 			$scope.sortKey = $scope.nameCol;
 			$scope.reverse = false;
 		}
+	};
+
+	$scope.onSelect = function (item, model, label, event) {
+		$scope.carregarEstados(item.id);
 	};
 
 	$scope.carregarPaises();
