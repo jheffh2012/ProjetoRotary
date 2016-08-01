@@ -3,7 +3,7 @@
 		<div class="row">			
 			<label for="inputPais" class="col-sm-1 control-label">Pais:</label>
 			<div class="col-sm-3">
-				<input type="text" ng-model="filtroPaises" placeholder="Selecione o País" uib-typeahead="pais as pais.nome for pais in paises | filter:{nome:$viewValue}" typeahead-loading="loadingPaises" typeahead-no-results="noResultsPais" class="form-control" id="inputPais">
+				<input type="text" ng-model="filtroPaises" placeholder="Selecione o País" uib-typeahead="pais as pais.nome for pais in paises | filter:{nome:$viewValue}" typeahead-loading="loadingPaises" typeahead-no-results="noResultsPais" class="form-control" id="inputPais" autocomplete="off">
 				<i ng-show="loadingPaises" class="glyphicon-refresh"></i>
 				<div ng-show="noResultsPais">
 					<i class="glyphicon glyphicon-remove">Não Existem dados</i>

@@ -3,7 +3,7 @@
 	<div class="row">
 		<label for="inputDistrito" class="col-sm-1 control-label">Distrito:</label>
 		<div class="col-sm-4">
-			<input type="text" ng-model="filtroDistrito" placeholder="Selecione o Distrito" uib-typeahead="distrito as distrito.descricao for distrito in distritos | filter:{descricao:$viewValue}" typeahead-loading="loadingDistritos" typeahead-no-results="noResultsDistritos" class="form-control" id="inputDistrito" typeahead-min-length="0">
+			<input type="text" ng-model="filtroDistrito" placeholder="Selecione o Distrito" uib-typeahead="distrito as distrito.descricao for distrito in distritos | filter:{descricao:$viewValue}" typeahead-loading="loadingDistritos" typeahead-no-results="noResultsDistritos" class="form-control" id="inputDistrito" typeahead-min-length="0" autocomplete="off">
 			<i ng-show="loadingDistritos" class="glyphicon-refresh"></i>
 			<div ng-show="noResultsDistritos">
 				<i class="glyphicon glyphicon-remove">Não Existem dados</i>

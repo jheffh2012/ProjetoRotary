@@ -65,8 +65,8 @@ rotary.controller('novodistritoController', function ($scope, cidadesService, es
 						$scope.distrito.cidades.push(cidade);
 					}
 				});
-				$scope.filtroPaises = '';
-				$scope.filtroEstados = '';
+				// $scope.filtroPaises = '';
+				// $scope.filtroEstados = '';
 				$scope.filtroCidades = '';
 			};
 		}, function (err) {

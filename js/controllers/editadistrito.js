@@ -47,8 +47,8 @@ rotary.controller('editadistritoController', function ($scope, $routeParams, cid
 		cidadesService.getCidade(idCidade).then(function (data) {
 			if (data.data.idcidades) {
 				$scope.distrito.cidades.push(data.data);
-				$scope.filtroPaises = '';
-				$scope.filtroEstados = '';
+				// $scope.filtroPaises = '';
+				// $scope.filtroEstados = '';
 				$scope.filtroCidades = '';
 			};
 		}, function (err) {
@@ -67,8 +67,8 @@ rotary.controller('editadistritoController', function ($scope, $routeParams, cid
 						$scope.distrito.cidades.push(cidade);
 					}
 				});
-				$scope.filtroPaises = '';
-				$scope.filtroEstados = '';
+				// $scope.filtroPaises = '';
+				// $scope.filtroEstados = '';
 				$scope.filtroCidades = '';
 			};
 		}, function (err) {

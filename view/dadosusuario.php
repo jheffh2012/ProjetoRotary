@@ -45,7 +45,7 @@
 	<div class="row">
 		<label for="inputDistrito" class="col-sm-1 control-label">Distrito:</label>
 		<div class="col-sm-5">
-			<input type="text" ng-model="distrito" placeholder="Selecione o Distrito" uib-typeahead="distrito as distrito.descricao for distrito in selecionadistritos | filter:{descricao:$viewValue}" typeahead-loading="loadingDistritos" typeahead-no-results="noResultsDistritos" class="form-control" id="inputDistrito">
+			<input type="text" ng-model="distrito" placeholder="Selecione o Distrito" uib-typeahead="distrito as distrito.descricao for distrito in selecionadistritos | filter:{descricao:$viewValue}" typeahead-loading="loadingDistritos" typeahead-no-results="noResultsDistritos" class="form-control" id="inputDistrito" autocomplete="off">
 			<i ng-show="loadingDistritos" class="glyphicon-refresh"></i>
 			<div ng-show="noResultsDistritos">
 				<i class="glyphicon glyphicon-remove">Não Existem dados</i>
