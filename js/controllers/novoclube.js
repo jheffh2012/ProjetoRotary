@@ -28,7 +28,10 @@ rotary.controller('novoclubeController', function ($scope, clubesService, distri
 		clubesService.insertOrUpdate($scope.clube).then(function (data) {
 			$scope.retorno = data.data;
 			if ($scope.retorno.retorno) {
-				window.location.href = "#/clubes";
+				$scope.clube.descricao = '';
+				$scope.clube.cidade = '';
+				$scope.formClube.$setPristine();
+				document.getElementById("inputCidades").focus();
 			} else {
 				console.log($scope.retorno.mensagem);
 			}

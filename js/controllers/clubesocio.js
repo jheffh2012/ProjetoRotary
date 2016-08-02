@@ -22,7 +22,7 @@ rotary.controller('clubesSociosController', function ($scope, clubesService, dis
 		clubesService.insertOrUpdateClubesSocios($scope.dados).then(function (data) {
 			$scope.retorno = data.data;
 			if ($scope.retorno.retorno) {
-				window.location = "http://localhost/projetoRotary/index.php#/clubes";
+				window.location.href = "#/clubes";
 			} else {
 				console.log($scope.retorno.mensagem);
 			}

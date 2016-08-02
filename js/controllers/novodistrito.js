@@ -46,7 +46,12 @@ rotary.controller('novodistritoController', function ($scope, cidadesService, es
 	$scope.incluirCidade = function (idCidade) {
 		cidadesService.getCidade(idCidade).then(function (data) {
 			if (data.data.idcidades) {
-				$scope.distrito.cidades.push(data.data);
+				var cid_temp = $scope.distrito.cidades.filter(function (cidade) {
+					return cidade.idcidades == idCidade;
+				});
+				if (cid_temp.length == 0) {
+					$scope.distrito.cidades.push(data.data);
+				};
 				$scope.filtroCidades = '';
 			};
 		}, function (err) {

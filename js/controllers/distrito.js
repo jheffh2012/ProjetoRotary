@@ -4,7 +4,7 @@ rotary.controller('distritosController', function ($scope, distritosService) {
 
 	$scope.getDistritos = function () {
 		distritosService.getDistritos().then(function (data) {
-			$scope.distritos = data.data;			
+			$scope.distritos = data.data;
 		}, function (err) {
 			$scope.erro = err.data;
 		});

@@ -11,7 +11,7 @@
 		</div>
 		<label for="inputCidades" class="col-sm-1 control-label">Cidade:</label>
 		<div class="col-sm-5">
-			<input type="text" ng-model="clube.cidade" placeholder="Selecione a cidade" uib-typeahead="c as c.descricao for c in cidades | filter:{descricao:$viewValue}" typeahead-loading="loadingCidades" typeahead-no-results="noResults" class="form-control" id="inputCidades" name="inputCidades" typeahead-on-select="onSelectClubesCidades($item, $model, $label, $event)" ng-required="true" typeahead-min-length="0" autocomplete="off">
+			<input type="text" ng-model="clube.cidade" placeholder="Selecione a cidade" uib-typeahead="c as c.descricao for c in cidades | filter:{descricao:$viewValue}" typeahead-loading="loadingCidades" typeahead-no-results="noResults" class="form-control" id="inputCidades" name="inputCidades" typeahead-on-select="onSelectClubesCidades($item, $model, $label, $event)" ng-required="true" typeahead-min-length="0" autocomplete="off" id="inputCidades">
 			<i ng-show="loadingCidades" class="glyphicon-refresh"></i>
 			<div ng-show="noResults">
 				<i class="glyphicon glyphicon-remove">Não Existem dados</i>

@@ -12,6 +12,17 @@ rotary.controller('cidadesemrotaryController', function ($scope, relatorioServic
 	$scope.getCidadesSemRotary = function (distrito) {
 		relatorioService.getCidadesSemRotary(distrito).then(function (data) {
 			$scope.cidades = data.data;
+			$scope.cidades.sort(function (a, b) {
+				if (a.populacao > b.populacao) {
+					return -1;
+				}
+				if (a.populacao < b.populacao) {
+					return 1;
+				}
+				if (a.populacao == b.populacao) {
+					return 0;
+				}
+			})
 		}, function (err) {
 			console.log(err.data);
 		})
