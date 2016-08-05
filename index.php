@@ -60,6 +60,8 @@
 	<script type="text/javascript" src="js/controllers/editausuario.js"></script>
 	<script type="text/javascript" src="js/controllers/logout.js"></script>
 	<script type="text/javascript" src="js/controllers/cidadesemrotary.js"></script>
+	<script type="text/javascript" src="js/controllers/editacidade.js"></script>
+	<script type="text/javascript" src="js/controllers/novacidade.js"></script>
 </head>
 <body ng-app="rotary">
 	<nav class="navbar navbar-default">

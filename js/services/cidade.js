@@ -22,6 +22,22 @@ rotary.factory("cidadesService", function ($http) {
 		})
 	};
 
+	var _deleteCidade = function (codigocidade) {
+		return $http({
+			method : "post",
+			url : "api/index.php/cidade/delete",
+			data : codigocidade
+		})
+	};
+
+	var _salvarCidade = function (dadoscidade) {
+		return $http({
+			method : "put",
+			url : "api/index.php/cidade/",
+			data : dadoscidade
+		})
+	};
+
 	var _atualizaPopulacao = function (cidades) {
 		return $http({
 			method : "put",
@@ -34,6 +50,8 @@ rotary.factory("cidadesService", function ($http) {
 		getCidades : _getCidades,
 		getCidadesEstado : _getCidadesEstado,
 		getCidade : _getCidade,
-		atualizaPopulacao : _atualizaPopulacao
+		atualizaPopulacao : _atualizaPopulacao,
+		deleteCidade : _deleteCidade,
+		salvarCidade : _salvarCidade
 	};
 });

@@ -10,16 +10,16 @@
 				</div>
 			</div>
 			<div class="col-sm-2">
-				<button ng-disabled="!filtroDistrito.iddistritos" class="btn btn-primary form-control" ng-click="getClubesDistrito(filtroDistrito.iddistritos)">Buscar Clubes</button>				
-			</div>
-			<div class="col-sm-2">
-			<p class="input-group">
-          		<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+				<p class="input-group">
+          			<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
           			<span class="input-group-btn">
             			<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
           			</span>
         		</p>
     		</div>
+    		<div class="col-sm-2">
+				<button ng-disabled="!filtroDistrito.iddistritos || !dt" class="btn btn-primary form-control" ng-click="getClubesDistrito(filtroDistrito.iddistritos)">Buscar Clubes</button>				
+			</div>
 		</div>
 	</div>
 	<div style="height: 10px;"></div>
@@ -49,7 +49,7 @@
 					<td>{{c.cidade}}</td>
 					<td style="text-align: right;">{{c.populacao}}</td>
 					<td>
-						<input type="text" ng-model="c.socios" class="form-control"></input>
+						<input type="text" ng-model="c.associados" class="form-control"></input>
 					</td>
 				</tr>
 			</tbody>

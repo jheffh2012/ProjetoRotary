@@ -35,6 +35,13 @@
 		</div>
 		<div class="container" style="min-height: 10px">
 		</div>
+		<div class="row">
+			<div class="col-sm-2">
+				<a href="#/novacidade" class="btn btn-success form-control">Nova Cidade</a>
+			</div>
+		</div>
+		<div class="container" style="min-height: 10px">
+		</div>
 		<div class="row">			
 			<div>
 				<label for="inputPesquisar" class="col-sm-1 control-label">Filtrar:</label>
@@ -53,7 +60,7 @@
 		<table class="table table-bordered">
 			<thead>
 				<tr>
-					<th class="col-xs-6" style="text-align: center" ng-click="sort('descricao')">Cidade
+					<th class="col-xs-4" style="text-align: center" ng-click="sort('descricao')">Cidade
 						<span class="glyphicon sort-icon" ng-show="sortKey=='descricao'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
 					</th>
 					<th class="col-xs-2" style="text-align: center" ng-click="sort('sigla')">UF
@@ -73,6 +80,12 @@
 					<td>{{c.sigla}}</td>
 					<td>{{c.estado}}</td>
 					<td style="text-align: right;">{{c.populacao}}</td>
+					<td>						
+						<a href="#/editacidade/{{c.idcidades}}" class="btn btn-primary pull-center form-control">Alterar</a>
+					</td>
+					<td>
+						<a class="btn btn-danger pull-center form-control" ng-click="deleteCidades(c.idcidades)">Deletar</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>

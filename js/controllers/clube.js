@@ -6,11 +6,11 @@ rotary.controller('clubesController', function ($scope, clubesService, distritos
 	$scope.titulo = "Cadastro de Clubes";
 
 	$scope.getSociosClube = function (clube) {
-		if (clube.socios && clube.socios.length > 0) {
-			clube.socios = [];
+		if (clube.listasocios && clube.listasocios.length > 0) {
+			clube.listasocios = [];
 		} else {
 			clubesService.getSociosClube(clube.idclubes).then(function (data) {
-				clube.socios = data.data;
+				clube.listasocios = data.data;
 			}, function (err) {
 				console.log(err.data);
 			})

@@ -38,7 +38,7 @@
 			<div class="container" style="height: 10px">
 
 			</div>
-			<div class="row container" style="border-bottom-style: inset;">
+			<!-- <div class="row" style="border-bottom-style: inset;">
 				<div class="col-md-1" ng-click="sort('clube')">
 					<button class="form-control btn btn-default">Clube</button>
 				</div>
@@ -63,19 +63,50 @@
 				<div class="col-md-1" ng-click="sort('populacao')">
 					<span class="btn btn-default  glyphicon sort-icon" ng-show="sortKey=='populacao'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
 				</div>
-			</div>
+				<div class="col-md-1" ng-click="sort('socios')">
+					<button class="form-control btn btn-default">Sócios</button>
+				</div>
+				<div class="col-md-1" ng-click="sort('socios')">
+					<span class="btn btn-default  glyphicon sort-icon" ng-show="sortKey=='socios'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+				</div>
+			</div>-->
+			<table class="table table-bordered">
+				<tr>
+					<th class="col-md-3" ng-click="sort('clube')">Clube
+						<span class="glyphicon sort-icon" ng-show="sortKey=='clube'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+					</th>
+					<th class="col-md-1" ng-click="sort('distrito')">Distrito
+						<span class="glyphicon sort-icon" ng-show="sortKey=='distrito'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+					</th>
+					<th class="col-md-2" ng-click="sort('cidade')">Cidade
+						<span class="glyphicon sort-icon" ng-show="sortKey=='cidade'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+					</th>
+					<th class="col-md-2" ng-click="sort('populacao')">População
+						<span class="glyphicon sort-icon" ng-show="sortKey=='populacao'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+					</th>
+					<th class="col-md-1" ng-click="sort('socios')">Sócios
+						<span class="glyphicon sort-icon" ng-show="sortKey=='socios'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
+					</th>
+					<th class="col-md-3">
+						Ações
+					</th>
+				</tr>
+			</table>
 			<div class="row container" style="border-bottom-style: inset;" dir-paginate="c in clubes | filter:searchText | orderBy: sortKey: reverse |itemsPerPage:20">
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<h5>{{c.clube}}</h5>
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-1">
 					<h5>{{c.distrito}}</h5>
 				</div>
 				<div class="col-md-2">
 					<h5>{{c.cidade}}</h5>
 				</div>
-				<div class="col-md-3" style="text-align: right;">
+				<div class="col-md-2" style="text-align: right;">
 					<h5>{{c.populacao}}</h5>
+				</div>
+				<div class="col-md-1" style="text-align: right;">
+					<h5>{{c.socios}}</h5>
 				</div>
 				<div class="col-md-1">
 					<a href="#/editaclube/{{c.idclubes}}" class="btn btn-primary pull-center form-control">Alterar</a>
@@ -86,11 +117,11 @@
 				<div class="col-md-1">
 					<a class="btn btn-danger pull-center form-control" ng-click="deleteClube(c.idclubes)">Deletar</a>
 				</div>
-				<div ng-if="c.socios && c.socios.length > 0">
+				<div ng-if="c.listasocios && c.listasocios.length > 0">
 					<div style="height: 80px;">
 					</div>
 					<div style="height: 200px;" bar-chart  
-						bar-data='c.socios'
+						bar-data='c.listasocios'
 						bar-x='data'
 						bar-y='["socios"]'
 						bar-labels='["Sócios"]'
@@ -101,7 +132,7 @@
 					</div>
 				</div>
 			</div>
-			<table class="table table-bordered">
+			<!-- <table class="table table-bordered"> -->
 				<!-- <thead>
 					<tr>
 						<th class="col-md-3" ng-click="sort('clube')">Clube

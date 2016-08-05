@@ -4,6 +4,18 @@ rotary.controller('cidadesController', function ($scope, cidadesService, estados
 	$scope.estados = [];
 	$scope.titulo = "Cadastro de Cidades";
 
+	$scope.deleteCidades = function (codigocidade) {
+		cidadesService.deleteCidade(codigocidade).then(function (data) {
+			if (data.data) {
+				if (!data.data.retorno) {
+					console.log(data.data.mensagem);
+				} else {
+					$scope.getCidades($scope.filtroEstados.idestados);
+				}
+			}
+		})
+	}
+
 	$scope.getCidades = function (codigoestado) {
 		cidadesService.getCidadesEstado(codigoestado).then(function (data) {
 			$scope.cidades = data.data;
@@ -14,10 +26,8 @@ rotary.controller('cidadesController', function ($scope, cidadesService, estados
 
 	$scope.carregarPaises = function () {
 		paisesService.getPaisesAtivos().then(function (data) {
-			$scope.filtrarPais = true;
 			$scope.paises = data.data;
 		}, function (err) {
-			$scope.passos = 0;
 			$scope.erro = err.data;
 		})
 	};
