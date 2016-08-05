@@ -82,6 +82,14 @@ rotary.config(function ($routeProvider, $locationProvider) {
 		templateUrl : "view/dadosusuario.php",
 		controller  : "editausuarioController"
 	})
+	.when('/editacidade/:idcidade', {
+		templateUrl : "view/dadoscidade.php",
+		controller  : "editacidadeController"
+	})
+	.when('/novacidade', {
+		templateUrl : "view/dadoscidade.php",
+		controller  : "novacidadeController"
+	})
 	.when('/logout', {
 		templateUrl: "view/principal.php",
 		controller : "logoutController"

@@ -5,7 +5,7 @@
 		public function getCidades () {
 			$app = new App;
 			try {
-				$sql = "SELECT c.idcidades, c.descricao, c.populacao, e.sigla, e.estado FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados)";
+				$sql = "SELECT c.idcidades, c.descricao, c.populacao, e.sigla, e.estado, c.estados_idestados FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados)";
 				$app->connectbd();
 				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
@@ -33,7 +33,7 @@
 		public function getCidade ($idcidade) {
 			$app = new App;
 			try {
-				$sql = "SELECT c.idcidades, c.descricao, c.populacao, e.sigla, e.estado FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados) WHERE c.idcidades = ".$idcidade;
+				$sql = "SELECT c.idcidades, c.descricao, c.populacao, e.sigla, e.estado, c.estados_idestados FROM cidades c INNER JOIN estados e ON (c.estados_idestados = e.idestados) WHERE c.idcidades = ".$idcidade;
 				$app->connectbd();
 				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
@@ -73,14 +73,14 @@
 			try {
 				$app->connectbd();
 				if (isset($dados->idcidades)) {
-					$sql = "UPDATE cidades SET descricao = :descricao, estados_idestados = :estados_idestados populacao = :populacao WHERE idcidades = ".$dados->idcidades;
+					$sql = "UPDATE cidades SET descricao = :descricao, estados_idestados = :estados_idestados, populacao = :populacao WHERE idcidades = ".$dados->idcidades;
 				} else {
 					$sql = "INSERT INTO cidades (descricao, estados_idestados, populacao) VALUES (:descricao, :estados_idestados, :populacao)";
 				}
 				$stm = $app->conexao->prepare($sql);
-				$stm->bindParam(':descricao', $dados->descricao, PARAM_STR);
-				$stm->bindParam(':estados_idestados', $dados->estados_idestados, PARAM_INT);
-				$stm->bindParam(':populacao', $dados->populacao, PARAM_INT);
+				$stm->bindParam(':descricao', $dados->descricao, PDO::PARAM_STR);
+				$stm->bindParam(':estados_idestados', $dados->estado->idestados, PDO::PARAM_INT);
+				$stm->bindParam(':populacao', $dados->populacao, PDO::PARAM_INT);
 				$stm->execute();
 
 				$retorno->retorno = true;
@@ -97,6 +97,9 @@
 			$retorno = new Retorno;
 			try {
 				$sql = "DELETE FROM cidades WHERE idcidades = ".$idcidades;
+				$app->connectbd();
+				$stm = $app->conexao->prepare($sql);
+				$stm->execute();
 				$retorno->retorno = true;
 				return json_encode($retorno, JSON_UNESCAPED_UNICODE);
 			} catch (PDOException $e) {

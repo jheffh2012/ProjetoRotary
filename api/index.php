@@ -82,6 +82,15 @@ $estado->get('/', function () {
 	}
 });
 
+$estado->get('/{idestado}', function ($idestado) {
+	$e = new Estado;
+	try {
+		return $lista = $e->getEstado($idestado);
+	} catch (Exception $e) {
+		return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+	}
+});
+
 $estado->post('/', function (Request $request) {
 	$idpais = json_decode($request->getContent());
 
@@ -134,6 +143,19 @@ $cidade->put('/', function (Request $request) {
 		$c = new Cidade;
 		try {
 			$lista = $c->insertOrUpdate($dados);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
+$cidade->post('/delete', function (Request $request) {
+	$dados = $request->getContent();
+	if (isset($dados)) {
+		$c = new Cidade;
+		try {
+			$lista = $c->deleteCidade($dados);
 			return $lista;
 		} catch (Exception $e) {
 			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
@@ -374,6 +396,19 @@ $clube->post('/socios', function (Request $request) {
 		$c = new Clube;
 		try {
 			$lista = $c->insertClubesSocios($dados->data, $dados->clubes);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+		}
+	}
+});
+
+$clube->post('/datasocios', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$c = new Clube;
+		try {
+			$lista = $c->getSociosDataDistrito($dados->data, $dados->distrito);
 			return $lista;
 		} catch (Exception $e) {
 			return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);

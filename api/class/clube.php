@@ -14,9 +14,9 @@
 				$user = $stmUsuario->fetch(PDO::FETCH_OBJ);
 				if (isset($user)) {
 					if ($user->admin == 1) {
-						$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades)";
+						$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao, (select sc.socios from clubes_socios sc where sc.clubes_idclubes = c.idclubes ORDER BY sc.data LIMIT 1) as socios FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades)";
 					} else {
-						$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN usuario_distritos ud ON (d.iddistritos = ud.distritos_iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades) WHERE ud.usuario_idusuario = ". $idusuario;
+						$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao, (select sc.socios from clubes_socios sc where sc.clubes_idclubes = c.idclubes ORDER BY sc.data LIMIT 1) as socios FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN usuario_distritos ud ON (d.iddistritos = ud.distritos_iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades) WHERE ud.usuario_idusuario = ". $idusuario;
 					}
 					$app->connectbd();
 					$stm = $app->conexao->prepare($sql);
@@ -40,6 +40,22 @@
 				return json_encode($lista, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			} catch (PDOException $e) {
 				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE);
+			}
+		}
+
+		public function getSociosDataDistrito ($data, $distrito) {
+			$app = new App;
+			try {
+				$sql = "SELECT sc.clubes_idclubes, sc.socios FROM clubes_socios sc	INNER JOIN clubes c ON (c.idclubes = sc.clubes_idclubes) WHERE c.distritos_iddistritos = ". $distrito . " AND sc.data = :data";
+				$tempdata = substr($data, 0, 10);
+				$app->connectbd();
+				$stm = $app->conexao->prepare($sql);
+				$stm->bindParam('data', $tempdata, PDO::PARAM_STR);
+				$stm->execute();
+				$dados = $stm->fetchAll(PDO::FETCH_OBJ);
+				return json_encode($dados, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+			} catch (PDOException $e) {
+				return json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			}
 		}
 
@@ -78,7 +94,7 @@
 			$app = new App;
 			$retorno = new Retorno;
 			try {
-				$sql = "SELECT * FROM clubes_socios WHERE data = :data AND clubes_idclubes = :clubes_idclubes";
+				$sql = "DELETE FROM clubes_socios WHERE data = :data AND clubes_idclubes = :clubes_idclubes";
 				$sqlUpdate = "UPDATE clubes_socios SET socios = :socios WHERE clubes_idclubes = :clubes_idclubes AND data = :data";
 				$sqlInsert = "INSERT INTO clubes_socios (clubes_idclubes, data, socios) VALUES (:clubes_idclubes, :data, :socios)";
 				$app->connectbd();
@@ -89,23 +105,17 @@
 					$stmInsert = $app->conexao->prepare($sqlInsert);
 					try {
 						foreach ($clubes as $clube) {
-							$stm->bindParam(':data', $data, PDO::PARAM_STR);
+							$tempdata = substr($data, 0, 10);
+							$stm->bindParam(':data', $tempdata, PDO::PARAM_STR);
 							$stm->bindParam(':clubes_idclubes', $clube->idclubes, PDO::PARAM_INT);
 							$stm->execute();
-							$dados = $stm->fetchAll(PDO::FETCH_ASSOC);
-							if (count($dados) > 0) {
-								$stmUpdate->bindParam(':data', $data, PDO::PARAM_DATE);
-								$stmUpdate->bindParam(':socios', $clube->socios, PDO::PARAM_INT);
-								$stmUpdate->bindParam(':clubes_idclubes', $clubes->idclubes, PDO::PARAM_INT);
-								$stmUpdate->execute();
-							} else {
-								$dateTemp = new Datetime($data);
-								$temp = $dateTemp->format('Y-m-d');
-								$stmInsert->bindParam(':data', $temp, PDO::PARAM_STR);
-								$stmInsert->bindParam(':socios', $clube->socios, PDO::PARAM_INT);
-								$stmInsert->bindParam(':clubes_idclubes', $clube->idclubes, PDO::PARAM_INT);
-								$stmInsert->execute();
-							}
+							
+							$dateTemp = new Datetime($data);
+							$temp = $dateTemp->format('Y-m-d');
+							$stmInsert->bindParam(':data', $temp, PDO::PARAM_STR);
+							$stmInsert->bindParam(':socios', $clube->associados, PDO::PARAM_INT);
+							$stmInsert->bindParam(':clubes_idclubes', $clube->idclubes, PDO::PARAM_INT);
+							$stmInsert->execute();
 						}
 						$app->conexao->commit();
 						$retorno->retorno = true;
@@ -127,7 +137,7 @@
 		public function getClubesCidade ($idCidade) {
 			$app = new App;
 			try {
-				$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades) WHERE c.codigo_cidade = ".$idCidade;
+				$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao, (select sc.socios from clubes_socios sc where sc.clubes_idclubes = c.idclubes ORDER BY sc.data LIMIT 1) as socios FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades) WHERE c.codigo_cidade = ".$idCidade;
 				$app->connectbd();
 				$stm = $app->conexao->prepare($sql);
 				$stm->execute();
@@ -141,7 +151,7 @@
 		public function getClubesDistrito ($idDistrito) {
 			$app = new App;
 			try {
-				$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades) WHERE d.iddistritos = ".$idDistrito;
+				$sql = "SELECT c.idclubes, c.descricao as clube, d.descricao as distrito, cd.descricao as cidade, cd.populacao, (select sc.socios from clubes_socios sc where sc.clubes_idclubes = c.idclubes ORDER BY sc.data LIMIT 1) as socios FROM clubes c INNER JOIN distritos d ON (c.distritos_iddistritos = d.iddistritos) INNER JOIN cidades cd ON (c.codigo_cidade = cd.idcidades) WHERE d.iddistritos = ".$idDistrito;
 				$app->connectbd();
 				$stm = $app->conexao->prepare($sql);
 				$stm->execute();

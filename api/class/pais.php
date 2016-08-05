@@ -4,7 +4,6 @@
 	* Classe País
 	*/
 	class Pais	{
-		
 		public function getPaises () {
 			$app = new App;
 			try {
