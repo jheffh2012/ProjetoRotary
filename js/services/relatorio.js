@@ -16,6 +16,30 @@ rotary.factory("relatorioService", function ($http) {
 		});
 	};
 
+	var _getTodasPercapitas = function (distrito) {
+		return $http({
+			method : "post",
+			url    : "api/index.php/relatorios/totalpercapita",
+			data   : distrito
+		});
+	};
+
+	var _getdezmaiorescidades = function (distrito) {
+		return $http({
+			method : "post",
+			url    : "api/index.php/relatorios/maiorescidades",
+			data   : distrito
+		});
+	};
+
+	var _getdezmenorescidades = function (distrito) {
+		return $http({
+			method : "post",
+			url    : "api/index.php/relatorios/menorescidades",
+			data   : distrito
+		});
+	};
+
 	var _getMaioresClubes = function (distrito) {
 		return $http({
 			method : "post",
@@ -43,6 +67,9 @@ rotary.factory("relatorioService", function ($http) {
 	return {
 		getPercapita : _getPercapita,
 		getMelhorarPercapita : _getMelhorarPercapita,
+		getTodasPercapitas : _getTodasPercapitas,
+		getdezmenorescidades : _getdezmenorescidades,
+		getdezmaiorescidades : _getdezmaiorescidades,
 		getMaioresclubes : _getMaioresClubes,
 		getMenoresclubes : _getMenoresClubes,
 		getCidadesSemRotary : _getCidadesSemRotary

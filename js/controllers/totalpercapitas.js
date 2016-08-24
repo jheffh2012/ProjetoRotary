@@ -1,20 +1,40 @@
-rotary.controller('melhorarpercapitasController', function ($scope, relatorioService, distritosService) {
-	$scope.percapitas = '';
-	$scope.media = '';
+rotary.controller('totalpercapitasController', function ($scope, relatorioService, distritosService) {
+	$scope.titulo = 'Percapitas';
+	$scope.total = {};
+	$scope.total.comrotary = 0;
+	$scope.total.perccomrotary = 0;
+	$scope.total.semrotary = 0;
+	$scope.total.percsemrotary = 0;
+	$scope.total.total = 0;
 	$scope.totaliza = {};
 	$scope.totaliza.clubes = 0;
 	$scope.totaliza.associados = 0;
 	$scope.totaliza.populacao = 0;
 	$scope.totaliza.percapita = 0;
 
-	$scope.titulo = 'Melhorar Percapita';
 	$scope.getPercapitas = function (distrito) {
-		relatorioService.getMelhorarPercapita(distrito).then(function (data) {
+		relatorioService.getTodasPercapitas(distrito).then(function (data) {
 			$scope.percapitas = data.data;
-			$scope.percapitas.sort($scope.dynamicSort("percapita"));
+			$scope.total = {};
+			$scope.total.comrotary = 0;
+			$scope.total.perccomrotary = 0;
+			$scope.total.semrotary = 0;
+			$scope.total.percsemrotary = 0;
+			$scope.total.total = 0;
+			$scope.percapitas.forEach(function (percapita) {
+				if (percapita.associados == 0) {
+					$scope.total.semrotary = $scope.total.semrotary + 1;
+				} else {
+					$scope.total.comrotary = $scope.total.comrotary + 1;
+				}
+				$scope.total.total = $scope.total.total + 1;
+			});
+			$scope.total.perccomrotary = ($scope.total.comrotary / $scope.total.total) * 100;
+			$scope.total.perccomrotary = $scope.total.perccomrotary.toFixed(2);
+			$scope.total.percsemrotary = ($scope.total.semrotary / $scope.total.total) * 100;
+			$scope.total.percsemrotary = $scope.total.percsemrotary.toFixed(2);
 
 			$scope.totalizar($scope.percapitas);
-
 		}, function (err) {
 			$scope.erro = err.data;
 		});
@@ -62,7 +82,7 @@ rotary.controller('melhorarpercapitasController', function ($scope, relatorioSer
 	        property = property.substr(1);
 	    }
 	    return function (a,b) {
-	        var result = (a[property] > b[property]) ? 1 : (a[property] < b[property]) ? -1 : 0;
+	        var result = (a[property] > b[property]) ? -1 : (a[property] < b[property]) ? 1 : 0;
 	        return result * sortOrder;
 	    }
 	}

@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 
 	<link rel="stylesheet" type="text/css" href="js/angular/angular-busy.min.css">
+	<link rel="stylesheet" type="text/css" href="js/angular/angular-material.min.css">
 
 	<script type="text/javascript" src="js/jquery/jquery-1.12.3.min.js"></script>
 	<!-- <link rel="stylesheet" type="text/css" href="js/jquery/jquery.datatables.min.css"> -->
@@ -24,6 +25,8 @@
 	<script type="text/javascript" src="js/angular/raphael-min.js"></script>
 	<script type="text/javascript" src="js/angular/morris.min.js"></script>
 	<script type="text/javascript" src="js/angular/angular-morris-chart.min.js"></script>
+	<script type="text/javascript" src="js/angular/angular-animate.min.js"></script>
+	<script type="text/javascript" src="js/angular/angular-aria.min.js"></script>
 
 	<script type="text/javascript" src="js/app.module.js"></script>
 	<script type="text/javascript" src="js/angular/angular-locale_pt-br.js"></script>
@@ -62,6 +65,8 @@
 	<script type="text/javascript" src="js/controllers/cidadesemrotary.js"></script>
 	<script type="text/javascript" src="js/controllers/editacidade.js"></script>
 	<script type="text/javascript" src="js/controllers/novacidade.js"></script>
+	<script type="text/javascript" src="js/controllers/totalpercapitas.js"></script>
+	<script type="text/javascript" src="js/controllers/comparativo.js"></script>
 </head>
 <body ng-app="rotary">
 	<nav class="navbar navbar-default">
@@ -84,6 +89,7 @@
 				<ul class="dropdown-menu">
 					<li><a href="#/melhorespercapitas">Melhores</a></li>
 					<li><a href="#/melhorarpercapitas">Melhorar</a></li>
+					<li><a href="#/totalpercapitas">Total</a></li>
 				</ul>
 			</li>
 			<li class="dropdown">
@@ -95,6 +101,7 @@
 			</li>
 			
 			<li><a href="#/semrotary">Cidades Sem Rotary</a></li>
+			<li><a href="#/comparativo">Comparativo Entre Maiores e Menores</a></li>
 			<li><a href="#/logout">Sair</a></li>
 		</ul>
 	</nav>

@@ -39,7 +39,7 @@
 					<th class="col-sm-2" ng-click="sort('populacao')">População
 						<span class="glyphicon sort-icon" ng-show="sortKey=='populacao'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
 					</th>
-					<th class="col-sm-3">Sócios</th>
+					<th class="col-sm-3">Associados</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -65,7 +65,7 @@
 				<button ng-disabled="(!dt) || !filtroDistrito.descricao" class="btn btn-success form-control" ng-click="salvarClubesSocios()">Salvar</button>
 			</div>
 			<div class="col-sm-2">
-				<a href="#/clubes" class="btn btn-default form-control">Cancelar</a>
+				<a href="#/cidades" class="btn btn-default form-control">Cancelar</a>
 			</div>
 		</div>		
 	</div>

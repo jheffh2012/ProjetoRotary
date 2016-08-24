@@ -32,7 +32,7 @@
 					<a href="#/novoclube" class="btn btn-success form-control">Incluir</a>
 				</div>
 				<div class="col-md-2">
-					<a href="#/clubesocios" class="btn btn-primary form-control">Sócios</a>
+					<a href="#/clubesocios" class="btn btn-primary form-control">Associados</a>
 				</div>
 			</div>
 			<div class="container" style="height: 10px">
@@ -84,7 +84,7 @@
 					<th class="col-md-2" ng-click="sort('populacao')">População
 						<span class="glyphicon sort-icon" ng-show="sortKey=='populacao'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
 					</th>
-					<th class="col-md-1" ng-click="sort('socios')">Sócios
+					<th class="col-md-1" ng-click="sort('socios')">Associados
 						<span class="glyphicon sort-icon" ng-show="sortKey=='socios'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
 					</th>
 					<th class="col-md-3">

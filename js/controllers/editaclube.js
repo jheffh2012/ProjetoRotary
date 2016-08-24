@@ -40,6 +40,9 @@ rotary.controller('editaclubeController', function ($scope, $routeParams, clubes
 		distritosService.getCidadesDistrito(codigoDistrito).then(function (data) {
 			if (data.data.length > 0) {
 				$scope.cidades = data.data;
+				$scope.cidades.forEach(function (cidade) {
+					cidade.descricao = cidade.descricao + ', ' + cidade.sigla;
+				});
 			}
 		}, function (err) {
 			$scope.erro = err.data;

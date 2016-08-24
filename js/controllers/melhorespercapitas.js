@@ -1,11 +1,34 @@
 rotary.controller('melhorespercapitasController', function ($scope, relatorioService, distritosService) {
 	$scope.titulo = 'Melhores Percapitas';
+	$scope.percapitas = '';
+	$scope.media = '';
+	$scope.totaliza = {};
+	$scope.totaliza.clubes = 0;
+	$scope.totaliza.associados = 0;
+	$scope.totaliza.populacao = 0;
+	$scope.totaliza.percapita = 0;
+
 	$scope.getPercapitas = function (distrito) {
 		relatorioService.getPercapita(distrito).then(function (data) {
 			$scope.percapitas = data.data;
 			$scope.percapitas.sort($scope.dynamicSort("percapita"));
+			$scope.totalizar($scope.percapitas);
 		}, function (err) {
 			$scope.erro = err.data;
+		});
+	};
+
+	$scope.totalizar = function (percapitas) {
+		$scope.totaliza.clubes = 0;
+		$scope.totaliza.associados = 0;
+		$scope.totaliza.populacao = 0;
+		$scope.totaliza.percapita = 0;
+		percapitas.forEach(function (percapita) {
+			$scope.totaliza.clubes = $scope.totaliza.clubes + percapita.clubes;
+			$scope.totaliza.associados = $scope.totaliza.associados + percapita.associados;
+			$scope.totaliza.populacao = $scope.totaliza.populacao + percapita.populacao;
+			$scope.totaliza.percapita = $scope.totaliza.populacao / $scope.totaliza.associados;
+			$scope.totaliza.percapita = $scope.totaliza.percapita.toFixed(0);
 		});
 	};
 

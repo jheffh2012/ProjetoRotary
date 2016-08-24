@@ -22,7 +22,7 @@
 				<th class="col-xs-11" ng-click="sort('descricao')">Clubes
 				<span class="glyphicon sort-icon" ng-show="sortKey=='descricao'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
 				</th>
-				<th class="col-xs-1" ng-click="sort('socios')">Sócios
+				<th class="col-xs-1" ng-click="sort('socios')">Associados
 				<span class="glyphicon sort-icon" ng-show="sortKey=='socios'" ng-class="{'glyphicon glyphicon-triangle-top':reverse, 'glyphicon glyphicon-triangle-bottom':!reverse}" aria-hidden="true"></span>
 				</th>
 			</tr>

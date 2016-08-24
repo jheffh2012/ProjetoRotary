@@ -58,6 +58,10 @@ rotary.config(function ($routeProvider, $locationProvider) {
 		templateUrl : "view/percapita.php",
 		controller  : "melhorarpercapitasController"
 	})
+	.when('/totalpercapitas', {
+		templateUrl : "view/percapita.php",
+		controller  : "totalpercapitasController"
+	})
 	.when('/maioresclubes', {
 		templateUrl : "view/tamanhoclubes.php",
 		controller  : "maioresclubesController"
@@ -93,6 +97,10 @@ rotary.config(function ($routeProvider, $locationProvider) {
 	.when('/logout', {
 		templateUrl: "view/principal.php",
 		controller : "logoutController"
+	})
+	.when('/comparativo', {
+		templateUrl : "view/comparativo.php",
+		controller : "comparativoController"
 	})
 	.when('/semrotary', {
 		templateUrl : "view/cidadesemrotary.php",

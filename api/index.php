@@ -536,6 +536,51 @@ $relatorios->post('/melhorarpercapita', function (Request $request) {
 	}
 });
 
+$relatorios->post('/totalpercapita', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->getPercapta($dados, 2);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(). JSON_UNESCAPED_UNICODE);
+		}
+	} else {
+		return json_encode("Vazio");
+	}
+});
+
+$relatorios->post('/maiorescidades', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->getComparativoCidades($dados, 0);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(). JSON_UNESCAPED_UNICODE);
+		}
+	} else {
+		return json_encode("Vazio");
+	}
+});
+
+$relatorios->post('/menorescidades', function (Request $request) {
+	$dados = json_decode($request->getContent());
+	if (isset($dados)) {
+		$d = new Distrito;
+		try {
+			$lista = $d->getComparativoCidades($dados, 1);
+			return $lista;
+		} catch (Exception $e) {
+			return json_encode($e->getMessage(). JSON_UNESCAPED_UNICODE);
+		}
+	} else {
+		return json_encode("Vazio");
+	}
+});
+
 $relatorios->post('/maioresclubes', function (Request $request) {
 	$dados = json_decode($request->getContent());
 	if (isset($dados)) {

@@ -86,12 +86,15 @@
 					$stm->execute();
 					$totalDados = $stm->rowCount();
 					$clubes = $stm->fetchAll(PDO::FETCH_OBJ);
-					$quant = 0;
 					foreach ($clubes as $clube) {
-						array_push($arrClubes, $clube);
-						$quant = $quant + 1;
-						if (intval($totalDados / 2) == $quant) {
-							break;
+						if ($tipo ==0) {
+							if ($clube->socios >= 20) {
+								array_push($arrClubes, $clube);
+							}
+						} else {
+							if ($clube->socios < 20) {
+								array_push($arrClubes, $clube);
+							}
 						}
 					}
 					
@@ -102,11 +105,67 @@
 			}
 		}
 
+		public function getComparativoCidades ($iddistrito, $tipo) {
+			if (isset($iddistrito)) {
+				$arrDados = [];
+				$arrPercapitas = [];
+
+				if ($tipo == 0) {
+					$sql = "SELECT C.idcidades, C.descricao, C.populacao FROM distritos D INNER JOIN distrito_cidades DC ON (D.iddistritos = DC.codigo_distrito) INNER JOIN cidades C ON (DC.codigo_cidades = C.idcidades) WHERE (D.iddistritos = :iddistritos) AND EXISTS (SELECT CL.idclubes FROM clubes CL WHERE CL.codigo_cidade = DC.codigo_cidades) ORDER BY C.populacao LIMIT 10";
+				} else {
+					$sql = "SELECT C.idcidades, C.descricao, C.populacao FROM distritos D INNER JOIN distrito_cidades DC ON (D.iddistritos = DC.codigo_distrito) INNER JOIN cidades C ON (DC.codigo_cidades = C.idcidades) WHERE (D.iddistritos = :iddistritos) AND EXISTS (SELECT CL.idclubes FROM clubes CL WHERE CL.codigo_cidade = DC.codigo_cidades) ORDER BY C.populacao DESC";
+				}
+				
+				$sqlclubes = "SELECT c.idclubes FROM clubes c WHERE c.codigo_cidade = :codigo_cidade";
+				$sqlassociados = "SELECT cs.socios FROM clubes_socios cs WHERE cs.clubes_idclubes = :clubes_idclubes ORDER BY cs.DATA DESC LIMIT 1";
+				$app = new App;
+				try {
+					$app->connectbd();
+					$stmCidades = $app->conexao->prepare($sql);
+					$stmCidades->bindParam(':iddistritos', $iddistrito);
+					$stmCidades->execute();
+					$cidades = $stmCidades->fetchAll(PDO::FETCH_OBJ);
+					foreach ($cidades as $d) {
+						$percapita = new Percapita;
+						$percapita->idcidade = $d->idcidades;
+						$percapita->cidade = $d->descricao;
+						$percapita->populacao = $d->populacao;
+						$stmclubes = $app->conexao->prepare($sqlclubes);
+						$stmclubes->bindParam(':codigo_cidade', $percapita->idcidade, PDO::PARAM_INT);
+						$stmclubes->execute();
+						$percapita->clubes = $stmclubes->rowCount();
+						$percapita->associados = 0;
+						$clubes = $stmclubes->fetchAll(PDO::FETCH_OBJ);
+						foreach ($clubes as $c) {
+							$stmassociados = $app->conexao->prepare($sqlassociados);
+							$stmassociados->bindParam(':clubes_idclubes', $c->idclubes, PDO::PARAM_INT);
+							$stmassociados->execute();
+							$ass = $stmassociados->fetch(PDO::FETCH_OBJ);
+							$percapita->associados = $percapita->associados + $ass->socios;
+						}
+						if ($percapita->associados > 0) {
+							$percapita->percapita = intval($percapita->populacao / $percapita->associados);
+						}					
+
+						array_push($arrDados, $percapita);
+					}
+					return json_encode($arrDados, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+
+				} catch (PDOException $e) {
+					return json_encode("Erro ao buscar relação cidades: ". $e->getMessage());
+				}
+			}
+		}
+
 		public function getPercapta ($idDistrito, $tipo) {
 			if (isset($idDistrito)) {
 				$arrDados = [];
 				$arrPercapitas = [];
-				$sql = "SELECT C.idcidades, C.descricao, C.populacao FROM distritos D INNER JOIN distrito_cidades DC ON (D.iddistritos = DC.codigo_distrito) INNER JOIN cidades C ON (DC.codigo_cidades = C.idcidades) WHERE EXISTS (SELECT CL.idclubes FROM clubes CL WHERE CL.codigo_cidade = DC.codigo_cidades) AND (D.iddistritos = :iddistritos)";
+				if ($tipo == 2) {
+					$sql = "SELECT C.idcidades, C.descricao, C.populacao FROM distritos D INNER JOIN distrito_cidades DC ON (D.iddistritos = DC.codigo_distrito) INNER JOIN cidades C ON (DC.codigo_cidades = C.idcidades) WHERE (D.iddistritos = :iddistritos)";
+				} else {
+					$sql = "SELECT C.idcidades, C.descricao, C.populacao FROM distritos D INNER JOIN distrito_cidades DC ON (D.iddistritos = DC.codigo_distrito) INNER JOIN cidades C ON (DC.codigo_cidades = C.idcidades) WHERE EXISTS (SELECT CL.idclubes FROM clubes CL WHERE CL.codigo_cidade = DC.codigo_cidades) AND (D.iddistritos = :iddistritos)";
+				}				
 				$sqlclubes = "SELECT c.idclubes FROM clubes c WHERE c.codigo_cidade = :codigo_cidade";
 				$sqlassociados = "SELECT cs.socios FROM clubes_socios cs WHERE cs.clubes_idclubes = :clubes_idclubes ORDER BY cs.DATA DESC LIMIT 1";
 				$app = new App;
@@ -134,7 +193,9 @@
 							$ass = $stmassociados->fetch(PDO::FETCH_OBJ);
 							$percapita->associados = $percapita->associados + $ass->socios;
 						}
-						$percapita->percapita = intval($percapita->populacao / $percapita->associados);
+						if ($percapita->associados > 0) {
+							$percapita->percapita = intval($percapita->populacao / $percapita->associados);
+						}					
 
 						array_push($arrDados, $percapita);
 					}
@@ -151,11 +212,13 @@
 								$a->media = $percapitaMedia;
 								array_push($arrPercapitas, $a);
 							}
-						} else {
+						} else if ($tipo == 1) {
 							if ($a->percapita < $percapitaMedia) {
 								$a->media = $percapitaMedia;
 								array_push($arrPercapitas, $a);
 							}
+						} else {
+							array_push($arrPercapitas, $a);
 						}
 					}
 					return json_encode($arrPercapitas, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
@@ -166,6 +229,7 @@
 				return json_encode("Vazio");
 			}
 		}
+
 
 		public function getCidadesDistrito ($idDistrito) {
 			if (isset($idDistrito)) {

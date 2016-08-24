@@ -83,8 +83,8 @@ create table if not exists `rotary`.`clubes` (
   constraint `fk_clubes_cidades1`
     foreign key (`codigo_cidade`)
     references `rotary`.`cidades` (`idcidades`)
-    on delete no action
-    on update no action)
+    on delete cascade
+    on update cascade)
 engine = innodb;
 
 

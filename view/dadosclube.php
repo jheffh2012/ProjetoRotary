@@ -19,7 +19,6 @@
 		</div>
 	</div>
 	<div style="height: 10px;">
-
 	</div>
 	<div class="row">
 		<label class="col-sm-1" for="inputDescricao">Nome:</label>
