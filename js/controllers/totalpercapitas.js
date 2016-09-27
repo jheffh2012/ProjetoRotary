@@ -1,4 +1,4 @@
-rotary.controller('totalpercapitasController', function ($scope, relatorioService, distritosService) {
+rotary.controller('totalpercapitasController', function ($scope, relatorioService, distritosService, $localStorage) {
 	$scope.titulo = 'Percapitas';
 	$scope.total = {};
 	$scope.total.comrotary = 0;
@@ -12,8 +12,8 @@ rotary.controller('totalpercapitasController', function ($scope, relatorioServic
 	$scope.totaliza.populacao = 0;
 	$scope.totaliza.percapita = 0;
 
-	$scope.getPercapitas = function (distrito) {
-		relatorioService.getTodasPercapitas(distrito).then(function (data) {
+	$scope.getPercapitas = function () {
+		relatorioService.getTodasPercapitas($localStorage.dqadistrito.iddistritos).then(function (data) {
 			$scope.percapitas = data.data;
 			$scope.total = {};
 			$scope.total.comrotary = 0;
@@ -54,13 +54,13 @@ rotary.controller('totalpercapitasController', function ($scope, relatorioServic
 		});
 	};
 
-	$scope.getDistritos = function (idDistrito) {
-		distritosService.getDistritos(idDistrito).then(function (data) {
-			$scope.distritos = data.data;
-		}, function (err) {
-			console.log(err.data);
-		})
-	};
+	// $scope.getDistritos = function (idDistrito) {
+	// 	distritosService.getDistritos(idDistrito).then(function (data) {
+	// 		$scope.distritos = data.data;
+	// 	}, function (err) {
+	// 		console.log(err.data);
+	// 	})
+	// };
 
 	$scope.sort = function (nameCol) {
 		if ($scope.nameCol == nameCol) {
@@ -86,6 +86,5 @@ rotary.controller('totalpercapitasController', function ($scope, relatorioServic
 	        return result * sortOrder;
 	    }
 	}
-
-	$scope.getDistritos();
+	// $scope.getDistritos();
 });

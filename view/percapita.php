@@ -1,14 +1,14 @@
 <div class="container" cg-busy="{promise:null,templateUrl:js/angular/custom-template.html,message:'buscando dados',backdrop:true,delay:0,minDuration:0}">
 	<h2 style="background-color: #EEE9E9; border-bottom-style: solid; border-bottom-color: #483D8B; color: #0000FF">{{titulo}}</h2>
 	<div class="row">
-		<label for="inputDistrito" class="col-sm-1 control-label">Distrito:</label>
+		<!-- <label for="inputDistrito" class="col-sm-1 control-label">Distrito:</label>
 		<div class="col-sm-4">
 			<input type="text" ng-model="filtroDistrito" placeholder="Selecione o Distrito" uib-typeahead="distrito as distrito.descricao for distrito in distritos | filter:{descricao:$viewValue}" typeahead-loading="loadingDistritos" typeahead-no-results="noResultsDistritos" class="form-control" id="inputDistrito"typeahead-min-length="0" autocomplete="off">
 			<i ng-show="loadingDistritos" class="glyphicon-refresh"></i>
 			<div ng-show="noResultsDistritos">
 				<i class="glyphicon glyphicon-remove">Não Existem dados</i>
 			</div>
-		</div>
+		</div> -->
 		<div class="col-sm-2">
 			<button class="btn btn-primary form-control" ng-click="getPercapitas(filtroDistrito.iddistritos)">Buscar Percapitas</button>
 		</div>

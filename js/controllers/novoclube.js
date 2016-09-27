@@ -1,21 +1,11 @@
-rotary.controller('novoclubeController', function ($scope, clubesService, distritosService) {
+rotary.controller('novoclubeController', function ($scope, clubesService, distritosService, $localStorage) {
 	$scope.clube = {};
 	$scope.distritos = [];
 	$scope.cidades = [];
 	$scope.titulo = "Novo Clube";
 
-	$scope.getDistritos = function () {
-		distritosService.getDistritos().then(function (data) {
-			if (data.data.length > 0) {
-				$scope.distritos = data.data;
-			}
-		}, function (err) {
-			$scope.erro = err.data;
-		});
-	};
-
-	$scope.getCidadesDistrito = function (codigoDistrito) {
-		distritosService.getCidadesDistrito(codigoDistrito).then(function (data) {
+	$scope.getCidadesDistrito = function () {
+		distritosService.getCidadesDistrito($localStorage.dqadistrito.iddistritos).then(function (data) {
 			if (data.data.length > 0) {
 				$scope.cidades = data.data;
 				$scope.cidades.forEach(function (cidade) {
@@ -28,6 +18,7 @@ rotary.controller('novoclubeController', function ($scope, clubesService, distri
 	};
 
 	$scope.salvarClube = function () {
+		$scope.clube.distrito = $localStorage.dqadistrito;
 		clubesService.insertOrUpdate($scope.clube).then(function (data) {
 			$scope.retorno = data.data;
 			if ($scope.retorno.retorno) {
@@ -55,6 +46,5 @@ rotary.controller('novoclubeController', function ($scope, clubesService, distri
 			console.log(err);
 		});
 	};
-
-	$scope.getDistritos();
+	$scope.getCidadesDistrito();
 })

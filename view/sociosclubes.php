@@ -1,14 +1,14 @@
 <form class="form-group">
 	<div class="container">
 		<div class="row">
-			<label for="inputDistrito" class="col-sm-1 control-label">Distrito:</label>
+			<!-- <label for="inputDistrito" class="col-sm-1 control-label">Distrito:</label>
 			<div class="col-sm-2">
 				<input type="text" ng-model="filtroDistrito" placeholder="Selecione o Distrito" uib-typeahead="distrito as distrito.descricao for distrito in distritos | filter:{descricao:$viewValue}" typeahead-loading="loadingDistritos" typeahead-no-results="noResultsDistritos" class="form-control" id="inputDistrito" typeahead-min-length="0" autocomplete="off">
 				<i ng-show="loadingDistritos" class="glyphicon-refresh"></i>
 				<div ng-show="noResultsDistritos">
 					<i class="glyphicon glyphicon-remove">Não Existem dados</i>
 				</div>
-			</div>
+			</div> -->
 			<div class="col-sm-2">
 				<p class="input-group">
           			<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
@@ -18,7 +18,7 @@
         		</p>
     		</div>
     		<div class="col-sm-2">
-				<button ng-disabled="!filtroDistrito.iddistritos || !dt" class="btn btn-primary form-control" ng-click="getClubesDistrito(filtroDistrito.iddistritos)">Buscar Clubes</button>				
+				<button ng-disabled="!dt" class="btn btn-primary form-control" ng-click="getClubesDistrito()">Buscar Clubes</button>				
 			</div>
 		</div>
 	</div>
@@ -62,10 +62,10 @@
 	<div style="height: 10px;">
 		<div class="row">
 			<div class="col-sm-2">
-				<button ng-disabled="(!dt) || !filtroDistrito.descricao" class="btn btn-success form-control" ng-click="salvarClubesSocios()">Salvar</button>
+				<button ng-disabled="(!dt)" class="btn btn-success form-control" ng-click="salvarClubesSocios()">Salvar</button>
 			</div>
 			<div class="col-sm-2">
-				<a href="#/cidades" class="btn btn-default form-control">Cancelar</a>
+				<a href="#/clubes" class="btn btn-default form-control">Cancelar</a>
 			</div>
 		</div>		
 	</div>

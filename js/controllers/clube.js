@@ -1,4 +1,4 @@
-rotary.controller('clubesController', function ($scope, clubesService, distritosService) {
+rotary.controller('clubesController', function ($scope, clubesService, distritosService, $localStorage) {
 	$scope.clubes = [];
 	$scope.distritos = [];
 	$scope.cidades = [];
@@ -27,9 +27,9 @@ rotary.controller('clubesController', function ($scope, clubesService, distritos
 		});
 	};
 
-	$scope.getClubesDistrito = function (codigoDistrito) {
+	$scope.getClubesDistrito = function () {
 		$scope.clubes = [];
-		clubesService.getClubesDistrito(codigoDistrito).then(function (data) {
+		clubesService.getClubesDistrito($localStorage.dqadistrito.iddistritos).then(function (data) {
 			if (data.data.length > 0) {
 				$scope.clubes = data.data;
 			}
@@ -48,18 +48,9 @@ rotary.controller('clubesController', function ($scope, clubesService, distritos
 		});
 	};
 
-	$scope.getDistritos = function () {
-		distritosService.getDistritos().then(function (data) {
-			if (data.data.length > 0) {
-				$scope.distritos = data.data;
-			}
-		}, function (err) {
-			$scope.erro = err.data;
-		});
-	};
 
-	$scope.getCidadesDistrito = function (codigoDistrito) {
-		distritosService.getCidadesDistrito(codigoDistrito).then(function (data) {
+	$scope.getCidadesDistrito = function () {
+		distritosService.getCidadesDistrito($localStorage.distrito.iddistritos).then(function (data) {
 			if (data.data.length > 0) {
 				$scope.cidades = data.data;
 			}
@@ -92,6 +83,5 @@ rotary.controller('clubesController', function ($scope, clubesService, distritos
 		}
 	};
 
-	$scope.getDistritos();
 	// $scope.getClubes();
 });

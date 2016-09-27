@@ -1,4 +1,4 @@
-rotary.controller('comparativoController', function ($scope, relatorioService, distritosService) {
+rotary.controller('comparativoController', function ($scope, relatorioService, distritosService, $localStorage) {
 	$scope.Maiores = '';
 	$scope.Menores = '';
 	$scope.totalMaiores = {};
@@ -12,14 +12,14 @@ rotary.controller('comparativoController', function ($scope, relatorioService, d
 	$scope.totalMenores.percapita = 0;
 
 	$scope.titulo = 'Comparativo';
-	$scope.getComparativo = function (distrito) {
-		relatorioService.getdezmaiorescidades(distrito).then(function (data) {
+	$scope.getComparativo = function () {
+		relatorioService.getdezmaiorescidades($localStorage.dqadistrito.iddistritos).then(function (data) {
 			$scope.Maiores = data.data;
 			$scope.totalizamaiores($scope.Maiores);
 		}, function (err) {
 			console.log(err.data);
 		});
-		relatorioService.getdezmenorescidades(distrito).then(function (data) {
+		relatorioService.getdezmenorescidades($localStorage.dqadistrito.iddistritos).then(function (data) {
 			$scope.Menores = data.data;
 			$scope.totalizamenores($scope.Menores);
 		}, function (err) {

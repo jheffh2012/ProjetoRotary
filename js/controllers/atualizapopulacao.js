@@ -1,17 +1,7 @@
-rotary.controller('atualizapopulacaoController', function ($scope, $location, cidadesService, distritosService) {
+rotary.controller('atualizapopulacaoController', function ($scope, $location, cidadesService, distritosService, $localStorage) {
 	$scope.cidades = [];
 	$scope.distritos = [];
 	$scope.titulo = "Atualizar População das Cidades";
-
-	$scope.getDistritos = function () {
-		distritosService.getDistritos().then(function (data) {
-			if (data.data.length > 0) {
-				$scope.distritos = data.data;
-			}
-		}, function (err) {
-			$scope.erro = err.data;
-		});
-	};
 
 	$scope.salvarDados = function () {
 		cidadesService.atualizaPopulacao($scope.cidades).then(function (data) {
@@ -26,8 +16,8 @@ rotary.controller('atualizapopulacaoController', function ($scope, $location, ci
 		})
 	}
 
-	$scope.getCidades = function (codigoDistrito) {
-		distritosService.getCidadesDistrito(codigoDistrito).then(function (data) {
+	$scope.getCidades = function () {
+		distritosService.getCidadesDistrito($localStorage.dqadistrito.iddistritos).then(function (data) {
 			if (data.data.length > 0) {
 				$scope.cidades = data.data;
 			}
@@ -48,6 +38,4 @@ rotary.controller('atualizapopulacaoController', function ($scope, $location, ci
 			$scope.reverse = false;
 		}
 	};
-
-	$scope.getDistritos();
 })

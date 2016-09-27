@@ -1,19 +1,11 @@
-rotary.controller('menoresclubesController', function ($scope, relatorioService, distritosService) {
+rotary.controller('menoresclubesController', function ($scope, relatorioService, distritosService, $localStorage) {
 	$scope.titulo = 'Menores Clubes';
-	$scope.getClubes = function (idDistrito) {
-		relatorioService.getMenoresclubes(idDistrito).then(function (data) {
+	$scope.getClubes = function () {
+		relatorioService.getMenoresclubes($localStorage.dqadistrito.iddistritos).then(function (data) {
 			$scope.clubes = data.data;
 		}, function (err) {
 			console.log(err.data);
 		});
-	};
-
-	$scope.getDistritos = function (idDistrito) {
-		distritosService.getDistritos(idDistrito).then(function (data) {
-			$scope.distritos = data.data;
-		}, function (err) {
-			console.log(err.data);
-		})
 	};
 
 	$scope.sort = function (nameCol) {
@@ -40,6 +32,4 @@ rotary.controller('menoresclubesController', function ($scope, relatorioService,
 	        return result * sortOrder;
 	    }
 	}
-
-	$scope.getDistritos();
 });

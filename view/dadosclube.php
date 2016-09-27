@@ -1,14 +1,14 @@
 <form class="form-group" name="formClube">
 	<h2 style="background-color: #EEE9E9; border-bottom-style: solid; border-bottom-color: #483D8B; color: #0000FF">{{titulo}}</h2>
 	<div class="row">
-		<label for="inputDistrito" class="col-sm-1 control-label">Distrito:</label>
+		<!-- <label for="inputDistrito" class="col-sm-1 control-label">Distrito:</label>
 		<div class="col-sm-5">
 			<input type="text" ng-model="clube.distrito" placeholder="Selecione o Distrito" uib-typeahead="distrito as distrito.descricao for distrito in distritos | filter:{descricao:$viewValue}" typeahead-loading="loadingDistritos" typeahead-no-results="noResultsDistritos" class="form-control" id="inputDistrito" name="inputDistrito" ng-required="true" typeahead-min-length="0" typeahead-on-select="onSelect($item, $model, $label, $event)" autocomplete="off">
 			<i ng-show="loadingDistritos" class="glyphicon-refresh"></i>
 			<div ng-show="noResultsDistritos">
 				<i class="glyphicon glyphicon-remove">Não Existem dados</i>
 			</div>
-		</div>
+		</div> -->
 		<label for="inputCidades" class="col-sm-1 control-label">Cidade:</label>
 		<div class="col-sm-5">
 			<input type="text" ng-model="clube.cidade" placeholder="Selecione a cidade" uib-typeahead="c as c.descricao for c in cidades | filter:{descricao:$viewValue}" typeahead-loading="loadingCidades" typeahead-no-results="noResults" class="form-control" id="inputCidades" name="inputCidades" typeahead-on-select="onSelectClubesCidades($item, $model, $label, $event)" ng-required="true" typeahead-min-length="0" autocomplete="off" id="inputCidades">
@@ -30,11 +30,6 @@
 	
 	</div>
 </form>
-<div class="row" ng-if="!clube.distrito.iddistritos && formClube.inputDistrito.$dirty">
-	<div class="alert alert-danger">
-		Informe um distrito válido!
-	</div>
-</div>
 <div class="row" ng-if="!clube.cidade.descricao && formClube.inputCidades.$dirty">
 	<div class="alert alert-danger">
 		Informe uma cidade válida!
@@ -47,7 +42,7 @@
 </div>
 <div class="row">
 	<div class="col-sm-2">
-		<button class="btn btn-success form-control" ng-click="salvarClube()" ng-disabled="!clube.distrito.iddistritos || !clube.cidade.descricao || !clube.descricao || !clube.descricao.length > 0">Salvar</button>
+		<button class="btn btn-success form-control" ng-click="salvarClube()" ng-disabled="!clube.cidade.descricao || !clube.descricao || !clube.descricao.length > 0">Salvar</button>
 	</div>
 	<div class="col-sm-2">
 		<a href="#/clubes" class="btn btn-default form-control">Cancelar</a>

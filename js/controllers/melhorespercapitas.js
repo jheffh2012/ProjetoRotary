@@ -1,4 +1,4 @@
-rotary.controller('melhorespercapitasController', function ($scope, relatorioService, distritosService) {
+rotary.controller('melhorespercapitasController', function ($scope, relatorioService, distritosService, $localStorage) {
 	$scope.titulo = 'Melhores Percapitas';
 	$scope.percapitas = '';
 	$scope.media = '';
@@ -8,8 +8,8 @@ rotary.controller('melhorespercapitasController', function ($scope, relatorioSer
 	$scope.totaliza.populacao = 0;
 	$scope.totaliza.percapita = 0;
 
-	$scope.getPercapitas = function (distrito) {
-		relatorioService.getPercapita(distrito).then(function (data) {
+	$scope.getPercapitas = function () {
+		relatorioService.getPercapita($localStorage.dqadistrito.iddistritos).then(function (data) {
 			$scope.percapitas = data.data;
 			$scope.percapitas.sort($scope.dynamicSort("percapita"));
 			$scope.totalizar($scope.percapitas);
@@ -30,14 +30,6 @@ rotary.controller('melhorespercapitasController', function ($scope, relatorioSer
 			$scope.totaliza.percapita = $scope.totaliza.populacao / $scope.totaliza.associados;
 			$scope.totaliza.percapita = $scope.totaliza.percapita.toFixed(0);
 		});
-	};
-
-	$scope.getDistritos = function (idDistrito) {
-		distritosService.getDistritos(idDistrito).then(function (data) {
-			$scope.distritos = data.data;
-		}, function (err) {
-			console.log(err.data);
-		})
 	};
 
 	$scope.sort = function (nameCol) {
@@ -64,6 +56,4 @@ rotary.controller('melhorespercapitasController', function ($scope, relatorioSer
 	        return result * sortOrder;
 	    }
 	}
-
-	$scope.getDistritos();
 });

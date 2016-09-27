@@ -1,16 +1,16 @@
-rotary.controller('clubesSociosController', function ($scope, clubesService, distritosService) {
+rotary.controller('clubesSociosController', function ($scope, clubesService, distritosService, $localStorage) {
 	$scope.clubes = [];
 	$scope.distritos = [];
 	$scope.cidades = [];
 
-	$scope.getClubesDistrito = function (codigoDistrito) {
+	$scope.getClubesDistrito = function () {
 		if (!$scope.dt) {
 			alert('Informe a data');
 		} else {
-			clubesService.getClubesDistrito(codigoDistrito).then(function (data) {
+			clubesService.getClubesDistrito($localStorage.dqadistrito.iddistritos).then(function (data) {
 				if (data.data.length > 0) {
 					$scope.clubes = data.data;
-					$scope.getSociosDataDistrito(codigoDistrito);
+					$scope.getSociosDataDistrito($localStorage.dqadistrito.iddistritos);
 				}
 			}, function (err) {
 				$scope.erro = err.data;
@@ -18,8 +18,8 @@ rotary.controller('clubesSociosController', function ($scope, clubesService, dis
 		};
 	};
 
-	$scope.getSociosDataDistrito = function (codigoDistrito) {
-		clubesService.getSociosDataDistrito($scope.dt, codigoDistrito).then(function (data) {
+	$scope.getSociosDataDistrito = function () {
+		clubesService.getSociosDataDistrito($scope.dt, $localStorage.dqadistrito.iddistritos).then(function (data) {
 			if (data.data.length > 0) {
 				$scope.clubessocios = data.data;
 				$scope.clubessocios.forEach(function (clubesocio) {
@@ -77,18 +77,8 @@ rotary.controller('clubesSociosController', function ($scope, clubesService, dis
 		});
 	};
 
-	$scope.getDistritos = function () {
-		distritosService.getDistritos().then(function (data) {
-			if (data.data.length > 0) {
-				$scope.distritos = data.data;
-			}
-		}, function (err) {
-			$scope.erro = err.data;
-		});
-	};
-
-	$scope.getCidadesDistrito = function (codigoDistrito) {
-		distritosService.getCidadesDistrito(codigoDistrito).then(function (data) {
+	$scope.getCidadesDistrito = function () {
+		distritosService.getCidadesDistrito($localStorage.dqadistrito.iddistritos).then(function (data) {
 			if (data.data.length > 0) {
 				$scope.cidades = data.data;
 			}
@@ -120,6 +110,4 @@ rotary.controller('clubesSociosController', function ($scope, clubesService, dis
 			$scope.reverse = false;
 		}
 	};
-
-	$scope.getDistritos();
 });

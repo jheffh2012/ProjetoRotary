@@ -1,16 +1,8 @@
-rotary.controller('cidadesemrotaryController', function ($scope, relatorioService, distritosService) {
+rotary.controller('cidadesemrotaryController', function ($scope, relatorioService, distritosService, $localStorage) {
 	$scope.titulo = 'Cidades Sem Rotary';
 
-	$scope.getDistritos = function (idDistrito) {
-		distritosService.getDistritos(idDistrito).then(function (data) {
-			$scope.distritos = data.data;
-		}, function (err) {
-			console.log(err.data);
-		})
-	};
-
-	$scope.getCidadesSemRotary = function (distrito) {
-		relatorioService.getCidadesSemRotary(distrito).then(function (data) {
+	$scope.getCidadesSemRotary = function () {
+		relatorioService.getCidadesSemRotary($localStorage.dqadistrito.iddistritos).then(function (data) {
 			$scope.cidades = data.data;
 			$scope.cidades.sort(function (a, b) {
 				if (a.populacao > b.populacao) {
@@ -40,6 +32,4 @@ rotary.controller('cidadesemrotaryController', function ($scope, relatorioServic
 			$scope.reverse = false;
 		}
 	};
-
-	$scope.getDistritos();
 });

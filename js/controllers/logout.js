@@ -1,5 +1,5 @@
 rotary.controller('logoutController', function ($scope, usuarioService, $localStorage) {
-	$localStorage.token = "";
+	$localStorage.dqatoken = "";
 	$scope.logout = function () {
 		usuarioService.getUsers(function(data) {
 			console.log(data.data);

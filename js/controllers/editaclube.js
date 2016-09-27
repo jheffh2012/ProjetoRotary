@@ -1,19 +1,9 @@
-rotary.controller('editaclubeController', function ($scope, $routeParams, clubesService,cidadesService, distritosService) {
+rotary.controller('editaclubeController', function ($scope, $routeParams, clubesService,cidadesService, distritosService, $localStorage) {
 	$scope.clube = {};
 	$scope.distritos = [];
 	$scope.cidades = [];
 	$scope.titulo = "Editando Clube";
 	$scope.sociosclube = [];
-
-	$scope.getDistritos = function () {
-		distritosService.getDistritos().then(function (data) {
-			if (data.data.length > 0) {
-				$scope.distritos = data.data;
-			}
-		}, function (err) {
-			$scope.erro = err.data;
-		});
-	};
 
 	$scope.getSociosClube = function (clube) {
 		clubesService.getSociosClube(clube).then(function (data) {
@@ -36,8 +26,8 @@ rotary.controller('editaclubeController', function ($scope, $routeParams, clubes
 		});
 	};
 
-	$scope.getCidadesDistrito = function (codigoDistrito) {
-		distritosService.getCidadesDistrito(codigoDistrito).then(function (data) {
+	$scope.getCidadesDistrito = function () {
+		distritosService.getCidadesDistrito($localStorage.dqadistrito.iddistritos).then(function (data) {
 			if (data.data.length > 0) {
 				$scope.cidades = data.data;
 				$scope.cidades.forEach(function (cidade) {
@@ -50,6 +40,7 @@ rotary.controller('editaclubeController', function ($scope, $routeParams, clubes
 	};
 
 	$scope.salvarClube = function () {
+		$scope.clube.distrito = $localStorage.dqadistrito;
 		clubesService.insertOrUpdate($scope.clube).then(function (data) {
 			$scope.retorno = data.data;
 			if ($scope.retorno.retorno) {
@@ -98,8 +89,7 @@ rotary.controller('editaclubeController', function ($scope, $routeParams, clubes
 			console.log(err);
 		});
 	};
-
-	$scope.getDistritos();
+	$scope.getCidadesDistrito();
 	$scope.getClube($routeParams.idclube);
 	$scope.getSociosClube($routeParams.idclube);
 })

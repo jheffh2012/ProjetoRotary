@@ -34,6 +34,6 @@
 		<button class="btn btn-success form-control" ng-click="salvarCidade()" ng-disabled="!cidade.estado.idestados || !cidade.descricao.length > 0">Salvar</button>
 	</div>
 	<div class="col-sm-2">
-		<a href="#/clubes" class="btn btn-default form-control">Cancelar</a>
+		<a href="#/cidades" class="btn btn-default form-control">Cancelar</a>
 	</div>
 </div>

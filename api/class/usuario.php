@@ -11,6 +11,7 @@
 	{
 		public $logado;
 		public $admin;
+		public $usuario;
 		public $token;
 	}
 
@@ -42,6 +43,7 @@
 					];
 					$retorno = $jwt->encode($data, $this->key);
 					$l->logado = true;
+					$l->usuario = $user->nome;
 					$l->token = $retorno;
 					if ($user->admin == 1) {
 						$l->admin = true;

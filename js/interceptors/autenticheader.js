@@ -2,12 +2,12 @@ rotary.factory("AutenticHeaderInterceptor", function ($q, $localStorage, $locati
 	return {
 		request : function (config) {
 			if (config.url.indexOf('view' === -1)) {
-				config.headers.tokenRotary = $localStorage.token;
+				config.headers.tokenRotary = $localStorage.dqatoken;
 			};
 			return config;
 		},
 		response : function (response) {
-			$localStorage.token = response.config.headers.tokenRotary;
+			$localStorage.dqatoken = response.config.headers.tokenRotary;
 			return response;
 		},
 		responseError : function (rejection) {
